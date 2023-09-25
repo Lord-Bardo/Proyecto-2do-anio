@@ -1,8 +1,8 @@
 # Grupo
 
-Nombre: **COMPLETAR ACA**
+Nombre: Ed Edd y Eddy
 
-Integrantes: **COMPLETAR ACA**
+Integrantes: Terrizzi Juan Martin, Lombardo Fabrizio, Belfiore Nicolas
 
 # Consigna TP Integrador
 
