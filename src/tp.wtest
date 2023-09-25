@@ -1,5 +1,37 @@
 import tp.*
 
-test "Test de ejemplo" {
-		assert.equals(4, 2 + 2)
+
+describe "TesteandoProtagonista" {
+	
+	const protagonista = new Personaje(vida=100, danio = 20, defensa=0.4)
+
+	test "Si el protagonista tiene 100 de vida la consulta de su vida debe dar 100" {
+
+		assert.equals(100, protagonista.consultarVida())
+	}
+	test "Si el protagonista tiene 20 de danio, la consulta de su danio debe dar 20" {
+	
+		assert.equals(20, protagonista.consultarDanio())
+	}
+	
+	test "Si el protagonista tiene 0.4 de defensa la consulta de su defensa debe dar 0.4" {
+	
+		assert.equals(0.4, protagonista.consultarDefensa())
+	}
+	test "Si el protagonista recibeDanio(20) deberia recibir 12 de danio y quedarse con 88 de vida" {
+	
+		protagonista.recibeDanio(20)
+		assert.equals(88, protagonista.consultarVida())
+		
+	}
+	test "Si el protagonista ataca, el enemigo sin defensa recibe 20 de danio y quedar con 80 de vida" {
+		const enemigo = new Personaje(vida=100, danio = 20, defensa=0) 
+	
+		protagonista.atacar(enemigo)
+		assert.equals(80, enemigo.consultarVida())
+	
+	}
+	
 }
+
+

@@ -29,9 +29,11 @@ Les vamos a ir dando preguntas para cada checkpoint que **tienen que** dejar con
 
 ## Checkpoint 1: 25/9
 
-a) Detectar un conjunto de objetos que sean polimórficos entre sí, aclarando cuál es la interfaz según la cuál son polimórficos, y _quién_ los trata de manera polimórfica.
+a) Detectar un conjunto de objetos que sean polimórficos entre sí, aclarando cuál es la interfaz según la cuál son polimórficos, y quién los trata de manera polimórfica.
 
-b) Tomar alguna clase definida en su programa y justificar por qué es una clase y no se definió con `object`.
+CartaAtaque y CartaDefensa entienden hacerEfecto(), que es un metodo que va a llamar Personaje.
 
-c) De haber algún objeto definido con `object`, justificar por qué.
+b) Tomar alguna clase definida en su programa y justificar por qué es una clase y no se definió con object. Optamos por definir Personaje como una clase dado que el protagonista y los enemigos van a tener los mismos atributos y deberian entender los mismos metodos, tales como atacar y aumentarDefensa.
+
+c) De haber algún objeto definido con object, justificar por qué.
 

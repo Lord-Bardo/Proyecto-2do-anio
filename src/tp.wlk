@@ -23,6 +23,9 @@ class Personaje{
 	method consultarDefensa(){
 		return defensa
 	}
+	method consultarDanio(){
+		return danio
+	}
 	method atacar(objetivo){
 		objetivo.recibeDanio(danio)
 	}
