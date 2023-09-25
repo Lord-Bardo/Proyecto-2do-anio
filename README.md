@@ -1,6 +1,6 @@
 # Grupo
 
-Nombre: Ed Edd y Eddy
+Nombre: Ed, Edd y Eddy
 
 Integrantes: Terrizzi Juan Martin, Lombardo Fabrizio, Belfiore Nicolas
 
