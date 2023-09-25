@@ -33,6 +33,9 @@ a) Detectar un conjunto de objetos que sean polimórficos entre sí, aclarando c
 
 CartaAtaque y CartaDefensa entienden hacerEfecto(), que es un metodo que va a llamar Personaje.
 
+b) Tomar alguna clase definida en su programa y justificar por qué es una clase y no se definió con `object`.
+Optamos por definir Personaje como una clase dado que el protagonista y los enemigos van a tener los mismos atributos y deberian entender los mismos metodos, tales como atacar y aumentarDefensa.
+
 b) Tomar alguna clase definida en su programa y justificar por qué es una clase y no se definió con object. Optamos por definir Personaje como una clase dado que el protagonista y los enemigos van a tener los mismos atributos y deberian entender los mismos metodos, tales como atacar y aumentarDefensa.
 
 c) De haber algún objeto definido con object, justificar por qué.
