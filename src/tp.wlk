@@ -16,8 +16,8 @@ class Personaje{
 	var danio 
 	var defensa
 	
-	method consultarVida(){
-		return vida
+	method vidaPersonaje(){
+		return 0.max(vida)
 	}
 	
 	method consultarDefensa(){
@@ -59,7 +59,7 @@ class CartaDefensa{
 
 class Menu{
 	
-	const protagonista = new Personaje(vida=100, danio = 20, defensa=0.4)
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4)
 	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2)
 	
 	
@@ -68,12 +68,32 @@ class Menu{
 	
 	
 	method empezarTurno (){
-			protagonista.juega(enemigo1,[trompada,equiparArmor])	
+	var	listaMessi = [trompada,equiparArmor,trompada]
+	var listaEnemigo = [equiparArmor,equiparArmor,trompada]
+		
+	//while (not.(self.estaMuerto(messi) && self.estaMuerto(enemigo1))){
+	//		messi.juega(enemigo1, listaMessi)	
+	//		enemigo1.juega(messi,listaEnemigo)
+
 		}
+	
 		
 		
+	
+	method consultarVida(personaje){
+	return personaje.vidaPersonaje()
 	}
 	
+	method estaMuerto(personaje){
+		return (self.consultarVida(personaje) == 0)
+	}
+	method devolverEnemigoActual(){
+		return enemigo1
+	}
+	
+	}
+
+
 
 
 
