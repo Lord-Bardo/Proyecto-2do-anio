@@ -16,7 +16,7 @@ describe "Testeando messi" {
 	
 	test "Si messi tiene 0.4 de defensa la consulta de su defensa debe dar 0.4" {
 	
-		assert.equals(0.4, messi.consultarDefensa())
+		assert.equals(0.4, messi.devolverDefensa())
 	}
 	test "Si messi recibeDanio(20) deberia recibir 12 de danio y quedarse con 488 de vida" {
 	
@@ -32,11 +32,13 @@ describe "Testeando messi" {
 	
 	}
 	describe "Probando menu"{
-	const menuInicio = new Menu()
+		const menuInicio = new Menu()
 	
-	test "messi ataca a mbappe 2 veces, lo mata, la armadura de messi termina en 0.6"
-	menuInicio.empezarTurno()
-	assert.equals(true,menuInicio.estaMuerto(menuInicio.devolverEnemigoActual()))
+	test "messi ataca a mbappe 2 veces, lo mata y sube su defensa, queda en 0.6"
+	
+		menuInicio.empezarTurno()
+		assert.equals(true,menuInicio.estaMuerto(menuInicio.devolverEnemigoActual()))
+		assert.equals(0.6,menuInicio.consultarDefensa(menuInicio.devolverMessi()))
 	}	
 
 }

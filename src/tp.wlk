@@ -20,7 +20,7 @@ class Personaje{
 		return 0.max(vida)
 	}
 	
-	method consultarDefensa(){
+	method devolverDefensa(){
 		return defensa
 	}
 	method consultarDanio(){
@@ -71,26 +71,37 @@ class Menu{
 	var	listaMessi = [trompada,equiparArmor,trompada]
 	var listaEnemigo = [equiparArmor,equiparArmor,trompada]
 		
-	//while (not.(self.estaMuerto(messi) && self.estaMuerto(enemigo1))){
-	//		messi.juega(enemigo1, listaMessi)	
-	//		enemigo1.juega(messi,listaEnemigo)
-
-		}
-	
-		
-		
-	
+			messi.juega(enemigo1, listaMessi)	
+			enemigo1.juega(messi,listaEnemigo)
+	if	(self.estaMuerto(messi)) {
+	// animacion de que muere messi y se muestra un "gano Francia"
+	}
+	else {
+		if (self.estaMuerto(enemigo1)){ 
+		// animacion de que muere enemigo y se muestra un "gano Argentina"
+		} 
+		else {
+			self.empezarTurno() 
+		} 
+	}
+	}
+			
 	method consultarVida(personaje){
 	return personaje.vidaPersonaje()
 	}
 	
+	method consultarDefensa(personaje){
+	return personaje.devolverDefensa()
+	}
+		
 	method estaMuerto(personaje){
 		return (self.consultarVida(personaje) == 0)
 	}
 	method devolverEnemigoActual(){
 		return enemigo1
 	}
-	
+	method devolverMessi(){
+	return messi
 	}
 
 
