@@ -84,7 +84,7 @@ class Menu{
 	
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 10)
-	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 230, aumento= 10)
+	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 230, aumento= 0.2)
 	
 	
 	
