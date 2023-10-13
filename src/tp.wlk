@@ -79,21 +79,23 @@ class CartaAumento inherits Carta{
 
 class Menu{
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=300, y=300)
-	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=900,y=300)
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=300, y=310)
+	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=900,y=310)
 	
 	
-	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 10)
-	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 230, aumento= 0.2)
+	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu = new CartaAumento(costo = 1, ruta = "Dibu.png", x= 1, aumento= 0.2)
 	
 	
 	
 	method empezarTurno (){
-	var	listaMessi = [balonesDeOro, hormonas, balonesDeOro]
+	var	listaMessi = [balonesDeOro, hormonas, dibu]
 	var listaEnemigo = [hormonas,hormonas, balonesDeOro]
 		
 	game.addVisual(balonesDeOro)
 	game.addVisual(hormonas)
+	game.addVisual(dibu)
 	
 	messi.juega(enemigo1, listaMessi)	
 	enemigo1.juega(messi,listaEnemigo)
