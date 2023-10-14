@@ -52,13 +52,20 @@ class Personaje{
 	}
 }
 
+object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y se mantiene para todos las posiciones del cursor
+	var y = 11
+	var x = 34
+	
+	method image() = "Cursor.png"
+	method position()= game.at(x,y)
+}
 
 
 
-class Carta{
+class Carta{ //Las cartas no deberian tener posicion, la posicion la voy dando segun la disponibilidad de la mano, y ya son definidas estas posiciones
 	var costo
 	var x
-	const y =3
+	const y =15
 	var ruta
 	
 	method image() = ruta
@@ -79,29 +86,39 @@ class CartaAumento inherits Carta{
 
 class Menu{
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=300, y=310)
-	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=900,y=310)
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423)
+	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420)
 	
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
-	const dibu = new CartaAumento(costo = 1, ruta = "Dibu.png", x= 1, aumento= 0.2)
-	
-	
-	
+	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const dibu1 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 273.75, aumento= 0.2)
+	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 509.5, aumento= 0.2)
+	const dibu3 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x=745.25 , aumento= 0.2)
+	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 981, aumento= 0.2)
+
+//Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
 	method empezarTurno (){
 	var	listaMessi = [balonesDeOro, hormonas, dibu]
 	var listaEnemigo = [hormonas,hormonas, balonesDeOro]
 		
-	game.addVisual(balonesDeOro)
-	game.addVisual(hormonas)
+	//game.addVisual(balonesDeOro)
+	//game.addVisual(hormonas)
+	game.addVisual(cursor)
 	game.addVisual(dibu)
+	game.addVisual(dibu1)
+	game.addVisual(dibu2)
+	game.addVisual(dibu3)
+	game.addVisual(dibu4)
+	
 	
 	messi.juega(enemigo1, listaMessi)	
 	enemigo1.juega(messi,listaEnemigo)
 	
 	if	(self.estaMuerto(messi)) {
 	// animacion de que muere messi y se muestra un "gano Francia"
+	// se cierra el juego luego de 10 seg
 	}
 	else {
 		if (self.estaMuerto(enemigo1)){ 
@@ -112,6 +129,19 @@ class Menu{
 		} 
 	}
 	}
+	// el tablero va de 38 a 1162, se dejan 64,75 pixeles entre cada carta
+	//quiero que entre cada carta se dejen 64,75 pixeles
+	//la primera posicion para mostrar carta es 38, 17, siendo la 1ra la que varia
+	//De todas formas hay siempre como maximo 5 cartas, asi que tal vez podria tener las posiciones definidas
+	//Serian: 30 , 213 , 376 , 559, 742 
+	//method mostrarListaCartas(listaCartas){
+//		var posInicial = game.at(38,17)
+	//	listaCartas.forEach({c => self.mostrarCartaPantallaPosicion(c,posInicial)})
+	//}
+	
+	//method mostrarCartaPantallaPosicion(carta, posicion){
+	//	game.addVisualIn(carta, posicion)
+	//}
 	
 	method consultarVida(personaje){
 	return personaje.vidaPersonaje()
