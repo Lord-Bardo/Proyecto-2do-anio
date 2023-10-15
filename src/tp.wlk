@@ -21,7 +21,11 @@ class Personaje{
 	var x
 	var y
 	var ruta
+	var listaCartas
+	var mano = listaCartas.take(5)
+	var mazo = listaCartas.drop(5)
 	
+
 	method position() = game.at(x,y)
 	
 	method vidaPersonaje(){
@@ -60,6 +64,9 @@ object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y
 	method position()= game.at(x,y)
 }
 
+// keyboard.i().onPressDo { game.say(pepita, "hola!") }
+// keyboard.rigth().onPressDo {cambiar posicion cursor }
+// keyboard.backspace().onPressDo { jugar la carta con posicion cursor}
 
 
 class Carta{ //Las cartas no deberian tener posicion, la posicion la voy dando segun la disponibilidad de la mano, y ya son definidas estas posiciones
