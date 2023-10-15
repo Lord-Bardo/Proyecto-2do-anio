@@ -21,11 +21,19 @@ class Personaje{
 	var x
 	var y
 	var ruta
-	var listaCartas
-	var mano = listaCartas.take(5)
-	var mazo = listaCartas.drop(5)
+	var listaCartas 
+	var mano = new List()
+	var mazo = new List()
 	
-
+	method asignarMazo(){
+		mazo = listaCartas.drop(5)
+	}
+	method asignarMano(){
+		mano = listaCartas.take(5)
+	}
+	method mano(){
+		return mano
+	}
 	method position() = game.at(x,y)
 	
 	method vidaPersonaje(){
@@ -49,19 +57,27 @@ class Personaje{
 	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1
 		defensa = defensa + aumento 
 	}
-	method juega (enemigo,listaCartas){
-		
-		listaCartas.forEach({z => z.hacerEfecto(self,enemigo)})
 	
+	method juega (enemigo, indice){
+		var c = mano.get(indice)
+		c.hacerEfecto(self,enemigo)
+		mano.remove(c)
+		mano.add(mazo.head())
+		mano = mano.filter{i => i != []}
 	}
 }
 
 object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y se mantiene para todos las posiciones del cursor
 	var y = 11
 	var x = 34
+	var indice = 0
 	
 	method image() = "Cursor.png"
 	method position()= game.at(x,y)
+	method obtenerIndice(){
+		return indice
+	}
+	
 }
 
 // keyboard.i().onPressDo { game.say(pepita, "hola!") }
@@ -93,35 +109,51 @@ class CartaAumento inherits Carta{
 
 class Menu{
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423)
-	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420)
-	
-	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
-	const dibu1 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 273.75, aumento= 0.2)
-	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 509.5, aumento= 0.2)
-	const dibu3 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x=745.25 , aumento= 0.2)
-	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 981, aumento= 0.2)
+	
+	
+	const listaMessi = [balonesDeOro, hormonas, dibu]
+	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
+	
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi)
+	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo)
+	
+
 
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
-	method empezarTurno (){
-	var	listaMessi = [balonesDeOro, hormonas, dibu]
-	var listaEnemigo = [hormonas,hormonas, balonesDeOro]
+
+	method mostrarEnPantalla(mano){// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
 		
+		game.addVisualIn(mano.get(0),game.at(38,15))
+		game.addVisualIn(mano.get(1),game.at(273.75,15))
+		game.addVisualIn(mano.get(2),game.at(509.5,15))
+		game.addVisualIn(mano.get(3),game.at(745.25,15))
+		game.addVisualIn(mano.get(4),game.at(981,15))
+		
+		//mano.forEach { carta => game.addVisualIn(carta, )}
+	}
+	
+	method elegirCarta(){     //tiene que ir moviendo el cursor hasta que toque espacio
+		game.addVisual(cursor)
+		
+		//whenKeyPressedDo(key, action)   native
+ 		//Adds a block that will be executed each time a specific key is pressed
+		
+		whenKeyPressedDo(keyboard.backspace(), return cursor.obtenerIndice())
+		
+	}
+	
+	
+	method empezarTurno (){
+	
+	self.mostrarEnPantalla(messi.mano())
 	//game.addVisual(balonesDeOro)
 	//game.addVisual(hormonas)
-	game.addVisual(cursor)
-	game.addVisual(dibu)
-	game.addVisual(dibu1)
-	game.addVisual(dibu2)
-	game.addVisual(dibu3)
-	game.addVisual(dibu4)
 	
-	
-	messi.juega(enemigo1, listaMessi)	
-	enemigo1.juega(messi,listaEnemigo)
+	messi.juega(enemigo1, self.elegirCarta())	
+	//enemigo1.juega(messi,listaEnemigo)
 	
 	if	(self.estaMuerto(messi)) {
 	// animacion de que muere messi y se muestra un "gano Francia"
