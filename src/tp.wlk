@@ -13,7 +13,6 @@ object tpIntegrador {
 		menuInicio.empezarTurno()
 		}
 }
-
 class Personaje{
 	var vida
 	var danio 
@@ -24,9 +23,13 @@ class Personaje{
 	var listaCartas 
 	var mano = new List()
 	var mazo = new List()
+	var stamina
 	
 	method asignarMazo(){
 		mazo = listaCartas.drop(5)
+	}
+	method mazo(){
+		return mazo
 	}
 	method asignarMano(){
 		mano = listaCartas.take(5)
@@ -36,17 +39,22 @@ class Personaje{
 	}
 	method position() = game.at(x,y)
 	
-	method vidaPersonaje(){
-		return 0.max(vida)
-	}
 	method image(){
 		return ruta
 	}
+	
+	method vidaPersonaje(){
+		return 0.max(vida)
+	}
+
 	method devolverDefensa(){
 		return defensa
 	}
 	method consultarDanio(){
 		return danio
+	}
+	method constultarStamina(){
+		return stamina
 	}
 	method atacar(objetivo){
 		objetivo.recibeDanio(danio)
@@ -58,16 +66,23 @@ class Personaje{
 		defensa = defensa + aumento 
 	}
 	
+	method sePuedeJugar(carta){
+		return	carta.consultarCosto() <= stamina
+	}
+	
+	
 	method juega (enemigo, indice){
 		var c = mano.get(indice)
-		c.hacerEfecto(self,enemigo)
-		mano.remove(c)
-		mano.add(mazo.head())
-		mano = mano.filter{i => i != []}
+		if (self.sePuedeJugar(c)){
+			c.hacerEfecto(self,enemigo)
+			mano.remove(c)
+		} else { game.say(c,"No me podes jugar te falta mana")
+		}
+		//	mano.add(mazo.head())
+		//	mano = mano.filter{i => i != []}
 	}
 }
-
-object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y se mantiene para todos las posiciones del cursor
+	object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y se mantiene para todos las posiciones del cursor
 	var y = 11
 	var x = 34
 	var indice = 0
@@ -77,7 +92,6 @@ object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y
 	method obtenerIndice(){
 		return indice
 	}
-	
 }
 
 // keyboard.i().onPressDo { game.say(pepita, "hola!") }
@@ -90,6 +104,7 @@ class Carta{ //Las cartas no deberian tener posicion, la posicion la voy dando s
 	var x
 	const y =15
 	var ruta
+	method consultarCosto() = costo
 	
 	method image() = ruta
 	method position() = game.at(x,y)
@@ -106,7 +121,6 @@ class CartaAumento inherits Carta{
 	}	
 }
 
-
 class Menu{
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
@@ -121,10 +135,9 @@ class Menu{
 	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo)
 	
 
-
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
 
-	method mostrarEnPantalla(mano){// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
+	method mostrarEnPantalla(mano){	// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
 		
 		game.addVisualIn(mano.get(0),game.at(38,15))
 		game.addVisualIn(mano.get(1),game.at(273.75,15))
@@ -142,7 +155,7 @@ class Menu{
  		//Adds a block that will be executed each time a specific key is pressed
 		
 		whenKeyPressedDo(keyboard.backspace(), return cursor.obtenerIndice())
-		
+	
 	}
 	
 	
@@ -164,6 +177,7 @@ class Menu{
 		// animacion de que muere enemigo y se muestra un "gano Argentina"
 		} 
 		else {
+			// if mano [] < 5 mano.add(mazo.head())
 			self.empezarTurno() 
 		} 
 	}

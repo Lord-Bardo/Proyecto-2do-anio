@@ -2,8 +2,29 @@ import tp.*
 
 
 describe "Testeando messi" {
+	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const balonesDeOro2 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const hormonas2 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const balonesDeOro3 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const hormonas3 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu3 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const balonesDeOro4 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const hormonas4 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
 	
-	const messi = new Personaje (vida=500,danio=20,defensa=0.4)
+	const listaMessi =[balonesDeOro, hormonas, dibu,balonesDeOro2, hormonas2, dibu2,balonesDeOro3, 
+		hormonas3, dibu3,balonesDeOro4, hormonas4, dibu4]
+	const listaVacia=[]
+	const listaMenosDe5Elementos=[balonesDeOro, hormonas, dibu,balonesDeOro2]
+	
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=5)
+	const messi2 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaVacia, stamina=5)
+	const messi3 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMenosDe5Elementos, stamina=5)
+	
+	const enemigo = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=5)
 	
 	test "Si messi tiene 500 de vida la consulta de su vida debe dar 500" {
 
@@ -25,12 +46,59 @@ describe "Testeando messi" {
 		
 	}
 	test "Si messi ataca, el enemigo sin defensa recibe 20 de danio y quedar con 80 de vida" {
-		const enemigo = new Personaje(vida=100, danio = 20, defensa=0) 
+		const enemigo = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi) 
 	
 		messi.atacar(enemigo)
 		assert.equals(80, enemigo.vidaPersonaje())
 	
 	}
+	
+	test "Se agarra las primeras 5 cartas de messi"{
+	messi.asignarMano()
+	assert.equals([balonesDeOro, hormonas, dibu,balonesDeOro2, hormonas2],messi.mano())
+	}
+	
+	test"Se agarras las primeras 5 cartas de una lista vacia"{
+	messi2.asignarMano()
+	assert.equals([],messi2.mano())
+	}
+	
+	test"Se agarra las primeras 5 cartas de una lista de menos de 5 elementos"{
+	messi3.asignarMano()
+	assert.equals([balonesDeOro, hormonas, dibu,balonesDeOro2],messi3.mano())
+	}
+	
+	test "Se saca las primeras 5 cartas de la lista de cartas y quedan las restantes"{
+	messi.asignarMazo()
+	assert.equals([dibu2,balonesDeOro3,hormonas3, dibu3,balonesDeOro4, hormonas4, dibu4],messi.mazo())	
+	}
+	
+	test"Se saca las primeras 5 cartas de una lista de cartas vacias,muestra la lista restante, deberia mostrar una lista vacia"{
+	messi2.asignarMazo()
+	assert.equals([],messi2.mazo())
+	}
+	
+	test"Se saca las primeras 5 cartas de una lista de cartas menor a 5, deberia dar una lista vacia"{
+	messi3.asignarMazo()
+	assert.equals([],messi3.mazo())	
+	}
+	
+	
+	test "Se juega una carta de ataque, consultamos la vida del enemigo a ver si recibio el daño"{
+	messi.asignarMano()
+	messi.asignarMazo()
+	messi.juega(enemigo,0)
+	assert.equals(80,enemigo.vidaPersonaje())
+	}
+	
+	test "Se juega una carta de aumentar defensa en 0.2, la defensa de messi ahora debe ser 0.6"{
+	messi.asignarMano()
+	messi.asignarMazo()
+	messi.juega(enemigo,2)
+	assert.equals(0.6,messi.devolverDefensa())
+	}
+	
+	
 	describe "Probando menu"{
 		const menuInicio = new Menu()
 	
@@ -39,8 +107,9 @@ describe "Testeando messi" {
 		menuInicio.empezarTurno()
 		assert.equals(true,menuInicio.estaMuerto(menuInicio.devolverEnemigoActual()))
 		assert.equals(0.6,menuInicio.consultarDefensa(menuInicio.devolverMessi()))
-	}	
-
+	}
+		
+	
 }
 
 
