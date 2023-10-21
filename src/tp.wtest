@@ -46,10 +46,10 @@ describe "Testeando messi" {
 		
 	}
 	test "Si messi ataca, el enemigo sin defensa recibe 20 de danio y quedar con 80 de vida" {
-		const enemigo = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi) 
+		const enemigo2 = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi) 
 	
-		messi.atacar(enemigo)
-		assert.equals(80, enemigo.vidaPersonaje())
+		messi.atacar(enemigo2)
+		assert.equals(80, enemigo2.vidaPersonaje())
 	
 	}
 	
@@ -98,18 +98,18 @@ describe "Testeando messi" {
 	assert.equals(0.6,messi.devolverDefensa())
 	}
 	
+}
+describe "Probando menu"{
+	const menuInicio = new Menu()
 	
-	describe "Probando menu"{
-		const menuInicio = new Menu()
-	
-	test "messi ataca a mbappe 2 veces, lo mata y sube su defensa, queda en 0.6"
+	test "messi ataca a mbappe 2 veces, lo mata y sube su defensa, queda en 0.6"{
 	
 		menuInicio.empezarTurno()
 		assert.equals(true,menuInicio.estaMuerto(menuInicio.devolverEnemigoActual()))
 		assert.equals(0.6,menuInicio.consultarDefensa(menuInicio.devolverMessi()))
 	}
-		
+}	
 	
-}
+
 
 

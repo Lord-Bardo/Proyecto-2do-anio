@@ -23,7 +23,7 @@ class Personaje{
 	var listaCartas 
 	var mano = new List()
 	var mazo = new List()
-	var stamina
+	var stamina = 0
 	
 	method asignarMazo(){
 		mazo = listaCartas.drop(5)
@@ -154,7 +154,7 @@ class Menu{
 		//whenKeyPressedDo(key, action)   native
  		//Adds a block that will be executed each time a specific key is pressed
 		
-		whenKeyPressedDo(keyboard.backspace(), return cursor.obtenerIndice())
+		//whenKeyPressedDo(keyboard.backspace(), return cursor.obtenerIndice())
 	
 	}
 	
