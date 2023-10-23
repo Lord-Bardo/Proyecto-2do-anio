@@ -145,12 +145,14 @@ class Menu{
 		game.addVisualIn(mano.get(3),game.at(745.25,15))
 		game.addVisualIn(mano.get(4),game.at(981,15))
 		
+		
 		//mano.forEach { carta => game.addVisualIn(carta, )}
 	}
 	
 	method elegirCarta(){     //tiene que ir moviendo el cursor hasta que toque espacio
 		game.addVisual(cursor)
 		
+		game.whenKeyPressedDo(keyboard.left(), cursor.moverIzquierda())
 		//whenKeyPressedDo(key, action)   native
  		//Adds a block that will be executed each time a specific key is pressed
 		
