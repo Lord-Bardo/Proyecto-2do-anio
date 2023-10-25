@@ -65,7 +65,12 @@ class Personaje{
 	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1
 		defensa = defensa + aumento 
 	}
-	
+	method agregarCarta(){
+		mano.add(mazo.head())
+		mano = mano.filter{i => i != []}	
+	}
+
+
 	method sePuedeJugar(carta){
 		return	carta.consultarCosto() <= stamina
 	}
@@ -86,6 +91,26 @@ class Personaje{
 	var y = 11
 	var x = 34
 	var indice = 0
+	method moverDerecha(){
+		if (x+235.75 > 977.15) {
+			x=34
+			indice=0
+		} else 
+			{ 
+			x= x+235.75 
+			indice++	
+			}
+		}	
+	method moverIzquierda(){
+		if (x-235.75 < 34){
+			x=977.15
+			indice=4
+		} else 
+			{ 
+			x= x-235.75
+			indice--
+			}
+	}
 	
 	method image() = "Cursor.png"
 	method position()= game.at(x,y)
@@ -97,6 +122,11 @@ class Personaje{
 // keyboard.i().onPressDo { game.say(pepita, "hola!") }
 // keyboard.rigth().onPressDo {cambiar posicion cursor }
 // keyboard.backspace().onPressDo { jugar la carta con posicion cursor}
+//object barraVida {
+//	const ruta
+//	const x
+//	const y	
+//}
 
 
 class Carta{ //Las cartas no deberian tener posicion, la posicion la voy dando segun la disponibilidad de la mano, y ya son definidas estas posiciones
@@ -126,13 +156,14 @@ class Menu{
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const hormonas2 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
 	
-	
-	const listaMessi = [balonesDeOro, hormonas, dibu]
+	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2]
 	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi)
-	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo)
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=5)
+	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=5)
 	
 
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
@@ -149,25 +180,35 @@ class Menu{
 		//mano.forEach { carta => game.addVisualIn(carta, )}
 	}
 	
-	method elegirCarta(){     //tiene que ir moviendo el cursor hasta que toque espacio
+	method elegirCarta(cursor){     //tiene que ir moviendo el cursor hasta que toque espacio
+		var r=3
 		game.addVisual(cursor)
-		
-		game.whenKeyPressedDo(keyboard.left(), cursor.moverIzquierda())
+		game.whenKeyPressedDo(keyboard.right(),cursor.moverDerecha())
+		//game.whenKeyPressedDo(keyboard.left(), cursor.moverIzquierda())
+		keyboard.left().onPressDo ({cursor.moverIzquierda()})
 		//whenKeyPressedDo(key, action)   native
  		//Adds a block that will be executed each time a specific key is pressed
 		
 		//whenKeyPressedDo(keyboard.backspace(), return cursor.obtenerIndice())
-	
+		game.whenKeyPressedDo(keyboard.enter(), {r= cursor.obtenerIndice()})
+		
+		return r
 	}
 	
 	
-	method empezarTurno (){
-	
+	method empezarTurno (cursor){
+	game.whenKeyPressedDo(keyboard.right(),{cursor.moverDerecha()})
+		// game.whenKeyPressedDo(keyboard.left(), cursor.moverIzquierda())
+	keyboard.left().onPressDo ({cursor.moverIzquierda()})
+		
+	messi.asignarMano()
+	messi.asignarMazo()
+
 	self.mostrarEnPantalla(messi.mano())
 	//game.addVisual(balonesDeOro)
 	//game.addVisual(hormonas)
 	
-	messi.juega(enemigo1, self.elegirCarta())	
+	messi.juega(enemigo1, self.elegirCarta(cursor))	
 	//enemigo1.juega(messi,listaEnemigo)
 	
 	if	(self.estaMuerto(messi)) {
@@ -179,10 +220,13 @@ class Menu{
 		// animacion de que muere enemigo y se muestra un "gano Argentina"
 		} 
 		else {
-			// if mano [] < 5 mano.add(mazo.head())
-			self.empezarTurno() 
-		} 
-	}
+			 if (messi.mano().lenght()<6)
+			 	{
+			 	messi.agregarCarta()				 
+				}
+			}
+			} 
+		self.empezarTurno(cursor)
 	}
 	// el tablero va de 38 a 1162, se dejan 64,75 pixeles entre cada carta
 	//quiero que entre cada carta se dejen 64,75 pixeles
