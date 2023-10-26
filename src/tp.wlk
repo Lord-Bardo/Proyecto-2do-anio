@@ -115,6 +115,7 @@ class Personaje{
 		if (self.sePuedeJugar(c)){
 			c.hacerEfecto(self,enemigo)
 			mano.remove(c)
+			game.removeVisual(c)
 			mano = mano.filter{i => i != []}
 		} else { game.say(c,"No me podes jugar te falta mana")
 		}
@@ -195,32 +196,23 @@ class Menu{
 	}
 	
 	
-	method empezarTurno (cursor){
-
-
-	self.mostrarEnPantalla(messi.mano())
-	//game.addVisual(balonesDeOro)
-	//game.addVisual(hormonas)
+	method empezarTurno(cursor){
+		self.mostrarEnPantalla(messi.mano())
 	
-	messi.juega(enemigo1, self.elegirCarta(cursor))	
-	//enemigo1.juega(messi,listaEnemigo)
-	
-	if	(self.estaMuerto(messi)) {
-	// animacion de que muere messi y se muestra un "gano Francia"
-	// se cierra el juego luego de 10 seg
-	}
-	else {
-		if (self.estaMuerto(enemigo1)){ 
-		// animacion de que muere enemigo y se muestra un "gano Argentina"
-		} 
+		messi.juega(enemigo1, self.elegirCarta(cursor))	
+
+		if(self.estaMuerto(messi)){ //se deberia mosrtar algo como gano francia
+		}
 		else {
-			 if (messi.mano().lenght()<6)
-			 	{
-			 	messi.agregarCarta()				 
+			if(self.estaMuerto(enemigo1)){ // animacion de que muere enemigo y se muestra un "gano Argentina"
+			} 
+			else {
+			 	if(messi.mano().lenght()<6){
+			 		messi.agregarCarta()				 
 				}
 			}
-			} 
-		self.empezarTurno(cursor)
+		} 
+		self.empezarTurno(cursor) //caso en el que no murio nadie
 	}
 	
 	method mostrarEnPantalla(mano){	// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
