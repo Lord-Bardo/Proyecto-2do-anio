@@ -1,5 +1,7 @@
 import wollok.game.*
-object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y se mantiene para todos las posiciones del cursor
+
+
+object cursor { 
 	var y = 11
 	var x = 34
 	var indice = 0
@@ -33,7 +35,7 @@ object cursor { //hay que restarle 4 a la x, y  de la posicion de la carta, la y
 object tpIntegrador {
 	method jugar() {
 		
-		var menuInicio = new Menu()
+	var menuInicio = new Menu()
 		game.cellSize(1)
 		game.width(1200)
 		game.height(740)
@@ -41,6 +43,7 @@ object tpIntegrador {
 		game.start()
 		game.addVisual(menuInicio.devolverMessi())
 		game.addVisual(menuInicio.devolverEnemigoActual())
+		menuInicio.iniciarMenu()
 		menuInicio.empezarTurno(cursor)
 		}
 }
@@ -112,10 +115,11 @@ class Personaje{
 		if (self.sePuedeJugar(c)){
 			c.hacerEfecto(self,enemigo)
 			mano.remove(c)
+			mano = mano.filter{i => i != []}
 		} else { game.say(c,"No me podes jugar te falta mana")
 		}
 		//	mano.add(mazo.head())
-		//	mano = mano.filter{i => i != []}
+		
 	}
 }
 
@@ -154,10 +158,10 @@ class CartaAumento inherits Carta{
 
 class Menu{
 	
-	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "Dibu2.png", x= 441)
+	const hormonas = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
-	const hormonas2 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
 	
 	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2]
@@ -166,22 +170,25 @@ class Menu{
 	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=5)
 	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=5)
 	
+	method iniciarMenu(){
+		self.inicializarMano(messi)
+	}
+	
+	method inicializarMano(personaje){
+		personaje.asignarMazo()
+		personaje.asignarMano()
+	}
 
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
 
 	
 	
-	method elegirCarta(cursor){     //tiene que ir moviendo el cursor hasta que toque espacio
+	method elegirCarta(cursor){   
 		var r=0
 		game.addVisual(cursor)
 		keyboard.right().onPressDo{cursor.moverDerecha()}
 		keyboard.left().onPressDo{cursor.moverIzquierda()}
-		//game.whenKeyPressedDo(keyboard.left(), cursor.moverIzquierda())
-		//keyboard.left().onPressDo ({cursor.moverIzquierda()})
-		//whenKeyPressedDo(key, action)   native
- 		//Adds a block that will be executed each time a specific key is pressed
-		
-		//whenKeyPressedDo(keyboard.backspace(), return cursor.obtenerIndice())
+
 		keyboard.enter().onPressDo{r= cursor.obtenerIndice()}
 		
 		return r
@@ -189,12 +196,7 @@ class Menu{
 	
 	
 	method empezarTurno (cursor){
-	//game.whenKeyPressedDo(keyboard.right(),{cursor.moverDerecha()})
-	// game.whenKeyPressedDo(keyboard.left(), cursor.moverIzquierda())
-	//keyboard.left().onPressDo ({cursor.moverIzquierda()})
-		
-	messi.asignarMano()
-	messi.asignarMazo()
+
 
 	self.mostrarEnPantalla(messi.mano())
 	//game.addVisual(balonesDeOro)
