@@ -44,6 +44,7 @@ object tpIntegrador {
 		game.addVisual(menuInicio.devolverMessi())
 		game.addVisual(menuInicio.devolverEnemigoActual())
 		menuInicio.iniciarMenu()
+		menuInicio.movimiento()
 		menuInicio.empezarTurno(cursor)
 		}
 }
@@ -163,7 +164,7 @@ class Menu{
 	const hormonas = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
 	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
-	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const dibu2 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
 	
 	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2]
 	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
@@ -183,28 +184,38 @@ class Menu{
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
 
 	
-	
-	method elegirCarta(cursor){   
-		var r=0
-		game.addVisual(cursor)
+	method movimiento(){
 		keyboard.right().onPressDo{cursor.moverDerecha()}
 		keyboard.left().onPressDo{cursor.moverIzquierda()}
-
-		keyboard.enter().onPressDo{r= cursor.obtenerIndice()}
-		
-		return r
 	}
+	//method elegirCarta(cursor){   
+	//	var r=0
+	//	game.addVisual(cursor)
+	//	keyboard.right().onPressDo{cursor.moverDerecha()}
+	//	keyboard.left().onPressDo{cursor.moverIzquierda()}
+
+	//	keyboard.enter().onPressDo{r= cursor.obtenerIndice()}
+		
+	//	return r
+	//}
 	
 	
 	method empezarTurno(cursor){
 		self.mostrarEnPantalla(messi.mano())
-	
-		messi.juega(enemigo1, self.elegirCarta(cursor))	
+		
+		game.addVisual(cursor)
 
-		if(self.estaMuerto(messi)){ //se deberia mosrtar algo como gano francia
+		//keyboard.left().onPressDo{cursor.moverIzquierda()}
+
+		keyboard.enter().onPressDo{messi.juega(enemigo1, cursor.obtenerIndice())}
+		// messi.juega(enemigo1, self.elegirCarta(cursor))	
+
+		if(self.estaMuerto(messi)){ //se deberia mostrar algo como gano francia 
+		game.removeVisual(cursor)
 		}
 		else {
 			if(self.estaMuerto(enemigo1)){ // animacion de que muere enemigo y se muestra un "gano Argentina"
+			game.removeVisual(cursor) 
 			} 
 			else {
 			 	if(messi.mano().lenght()<6){
