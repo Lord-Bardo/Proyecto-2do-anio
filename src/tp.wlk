@@ -117,7 +117,7 @@ class Personaje{
 			c.hacerEfecto(self,enemigo)
 			mano.remove(c)
 			game.removeVisual(c)
-			mano = mano.filter{i => i != []}
+		
 		} else { game.say(c,"No me podes jugar te falta mana")
 		}
 		//	mano.add(mazo.head())
@@ -141,11 +141,20 @@ class Carta{ //Las cartas no deberian tener posicion, la posicion la voy dando s
 	var x
 	const y =15
 	var ruta
+	
+	method cambiarX(nuevoX){
+		x=nuevoX
+	}
+	
 	method consultarCosto() = costo
 	
 	method image() = ruta
 	method position() = game.at(x,y)
+
+	
 }
+	
+
 class CartaAtaque inherits Carta{
 	method hacerEfecto(atacante, atacado){
 		atacante.atacar(atacado)
@@ -165,8 +174,9 @@ class Menu{
 	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
 	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	const dibu2 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
+	const dibu3 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
 	
-	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2]
+	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2,dibu3]
 	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
 	
 	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=5)
@@ -187,6 +197,8 @@ class Menu{
 	method movimiento(){
 		keyboard.right().onPressDo{cursor.moverDerecha()}
 		keyboard.left().onPressDo{cursor.moverIzquierda()}
+		keyboard.enter().onPressDo{messi.juega(enemigo1, cursor.obtenerIndice());self.mostrarEnPantalla(messi.mano())}
+		
 	}
 	//method elegirCarta(cursor){   
 	//	var r=0
@@ -207,7 +219,6 @@ class Menu{
 
 		//keyboard.left().onPressDo{cursor.moverIzquierda()}
 
-		keyboard.enter().onPressDo{messi.juega(enemigo1, cursor.obtenerIndice())}
 		// messi.juega(enemigo1, self.elegirCarta(cursor))	
 
 		if(self.estaMuerto(messi)){ //se deberia mostrar algo como gano francia 
@@ -218,24 +229,45 @@ class Menu{
 			game.removeVisual(cursor) 
 			} 
 			else {
-			 	if(messi.mano().lenght()<6){
+			 	if(messi.mano().size()<5){
 			 		messi.agregarCarta()				 
 				}
 			}
 		} 
+		self.mostrarEnPantalla(messi.mano())
 		self.empezarTurno(cursor) //caso en el que no murio nadie
 	}
 	
 	method mostrarEnPantalla(mano){	// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
 		
-		game.addVisualIn(mano.get(0),game.at(38,15))
-		game.addVisualIn(mano.get(1),game.at(273.75,15))
-		game.addVisualIn(mano.get(2),game.at(509.5,15))
-		game.addVisualIn(mano.get(3),game.at(745.25,15))
-		game.addVisualIn(mano.get(4),game.at(981,15))
-		
-		
-		//mano.forEach { carta => game.addVisualIn(carta, )}
+		var i = 0
+		mano.forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }		
+	
+		mano.forEach { carta => game.addVisual(carta)}
+	}
+	
+	method dondeVoy(indice){
+		if(indice == 0){
+            return (38)
+        }
+        else{
+            if(indice == 1){
+                return (273.75)
+            }
+            else{
+                if(indice == 2){
+                    return (509.5)
+                }
+                else{
+                    if(indice == 3){
+                        return (745.25)
+                    }
+                    else{
+                        return (981)
+                    }
+                }
+            }
+        }
 	}
 	// el tablero va de 38 a 1162, se dejan 64,75 pixeles entre cada carta
 	//quiero que entre cada carta se dejen 64,75 pixeles
