@@ -48,6 +48,21 @@ object tpIntegrador {
 		menuInicio.empezarTurno(cursor)
 		}
 }
+
+class Stamina {
+	var nro = 2
+	const x 
+	const y 
+	
+	method position() = game.at(x,y)
+	method image()= "stamina.png"
+	method text() = nro
+	method valor() = nro
+	method modificarValor(i){
+		nro = nro +i
+	}
+}
+
 class Personaje{
 	var vida
 	var danio 
@@ -58,7 +73,7 @@ class Personaje{
 	var listaCartas 
 	var mano = new List()
 	var mazo = new List()
-	var stamina = 0
+	const stamina 
 	
 	method asignarMazo(){
 		mazo = listaCartas.drop(5)
@@ -89,7 +104,17 @@ class Personaje{
 		return danio
 	}
 	method constultarStamina(){
-		return stamina
+		return stamina.valor()
+	}
+	method devolverStamina () = stamina
+	
+	method incrementarStamina(){
+		if (stamina.valor()< 6){
+			stamina.modificarValor(+1)	
+		}
+	}
+	method restarStamina(cantidad){
+		stamina.modificarValor(-cantidad)
 	}
 	method atacar(objetivo){
 		objetivo.recibeDanio(danio)
@@ -107,7 +132,7 @@ class Personaje{
 
 
 	method sePuedeJugar(carta){
-		return	carta.consultarCosto() <= stamina
+		return	carta.consultarCosto() <= stamina.valor()
 	}
 	
 	
@@ -117,6 +142,7 @@ class Personaje{
 			c.hacerEfecto(self,enemigo)
 			mano.remove(c)
 			game.removeVisual(c)
+			self.restarStamina(c.consultarCosto())
 		
 		} else { game.say(c,"No me podes jugar te falta mana")
 		}
@@ -179,11 +205,15 @@ class Menu{
 	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2,dibu3]
 	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=5)
-	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=5)
+	const staminaM= new Stamina(x= 300, y=400)
+	const staminaP= new Stamina(x= 800, y=400)
+	
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaM)
+	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=staminaP)
 	
 	method iniciarMenu(){
 		self.inicializarMano(messi)
+		game.addVisual(messi.devolverStamina())
 	}
 	
 	method inicializarMano(personaje){
@@ -213,10 +243,11 @@ class Menu{
 	
 	
 	method empezarTurno(cursor){
+		
 		self.mostrarEnPantalla(messi.mano())
 		
 		game.addVisual(cursor)
-
+		
 		//keyboard.left().onPressDo{cursor.moverIzquierda()}
 
 		// messi.juega(enemigo1, self.elegirCarta(cursor))	
@@ -232,10 +263,12 @@ class Menu{
 			 	if(messi.mano().size()<5){
 			 		messi.agregarCarta()				 
 				}
+				self.mostrarEnPantalla(messi.mano())
+				messi.incrementarStamina()
+				self.empezarTurno(cursor) //caso en el que no murio nadie
 			}
 		} 
-		self.mostrarEnPantalla(messi.mano())
-		self.empezarTurno(cursor) //caso en el que no murio nadie
+		
 	}
 	
 	method mostrarEnPantalla(mano){	// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
