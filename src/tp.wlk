@@ -56,7 +56,7 @@ class Stamina {
 	
 	method position() = game.at(x,y)
 	method image()= "stamina.png"
-	method text() = nro
+	method text() = nro.toString()
 	method valor() = nro
 	method modificarValor(i){
 		nro = nro +i
@@ -246,7 +246,7 @@ class Menu{
 		
 		self.mostrarEnPantalla(messi.mano())
 		
-		game.addVisual(cursor)
+		//game.addVisual(cursor)
 		
 		//keyboard.left().onPressDo{cursor.moverIzquierda()}
 
@@ -276,7 +276,7 @@ class Menu{
 		var i = 0
 		mano.forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }		
 	
-		mano.forEach { carta => game.addVisual(carta)}
+		//mano.forEach { carta => game.addVisual(carta)}
 	}
 	
 	method dondeVoy(indice){

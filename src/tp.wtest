@@ -20,11 +20,11 @@ describe "Testeando messi" {
 	const listaVacia=[]
 	const listaMenosDe5Elementos=[balonesDeOro, hormonas, dibu,balonesDeOro2]
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=5)
-	const messi2 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaVacia, stamina=5)
-	const messi3 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMenosDe5Elementos, stamina=5)
+	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=new Stamina(x = 0, y = 0))
+	const messi2 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaVacia, stamina=new Stamina (x=0, y = 0))
+	const messi3 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMenosDe5Elementos, stamina = new Stamina (x=0,y=0))
 	
-	const enemigo = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=5)
+	const enemigo = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=new Stamina(x=0, y = 0))
 	
 	test "Si messi tiene 500 de vida la consulta de su vida debe dar 500" {
 
