@@ -205,7 +205,7 @@ class Menu{
 	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2,dibu3]
 	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
 	
-	const staminaM= new Stamina(x= 300, y=400)
+	const staminaM= new Stamina(x= 360, y=600)
 	const staminaP= new Stamina(x= 800, y=400)
 	
 	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaM)
