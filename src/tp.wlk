@@ -48,15 +48,19 @@ object tpIntegrador {
 		menuInicio.empezarTurno(cursor)
 		}
 }
-
-class Stamina {
-	var nro = 2
-	const x 
-	const y 
+object paleta { 
+const property rojo = "FF0000FF"
+	}
+class Atributo{
+	var nro 
+	const x
+	const y
+	const imagen
 	
 	method position() = game.at(x,y)
-	method image()= "stamina.png"
+	method image()= imagen
 	method text() = nro.toString()
+	method textColor() = paleta.rojo()
 	method valor() = nro
 	method modificarValor(i){
 		nro = nro +i
@@ -64,16 +68,17 @@ class Stamina {
 }
 
 class Personaje{
-	var vida
-	var danio 
-	var defensa
+	const vida 
+	const danio 
+	const defensa
+	const stamina 
 	var x
 	var y
 	var ruta
 	var listaCartas 
 	var mano = new List()
 	var mazo = new List()
-	const stamina 
+	
 	
 	method asignarMazo(){
 		mazo = listaCartas.drop(5)
@@ -93,21 +98,30 @@ class Personaje{
 		return ruta
 	}
 	
-	method vidaPersonaje(){
-		return 0.max(vida)
-	}
-
-	method devolverDefensa(){
-		return defensa
-	}
-	method consultarDanio(){
-		return danio
-	}
-	method constultarStamina(){
-		return stamina.valor()
-	}
+	method devolverVida()=vida
+	method devolverDefensa() =defensa
+	method devolverDanio() = danio
 	method devolverStamina () = stamina
 	
+	method consultarVida()= 0.max(vida.valor())
+	method consultarDanio()= danio.valor()
+	method constultarStamina() = stamina.valor()
+	method consultarDefensa() = defensa.valor()
+	
+	method atacar(objetivo){
+		objetivo.recibeDanio(danio.valor())
+	}
+	method estaMuerto(){
+		return self.consultarVida() ==0
+	}
+	
+	method recibeDanio(dmg){
+		vida.modificarValor(-danio.valor() * (1- defensa.valor()))
+	}
+	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1 
+		defensa.modificarValor(+aumento)
+	}	
+
 	method incrementarStamina(){
 		if (stamina.valor()< 6){
 			stamina.modificarValor(+1)	
@@ -116,18 +130,12 @@ class Personaje{
 	method restarStamina(cantidad){
 		stamina.modificarValor(-cantidad)
 	}
-	method atacar(objetivo){
-		objetivo.recibeDanio(danio)
-	}
-	method recibeDanio(dmg){
-		vida = vida - (dmg * (1 - defensa))
-	}
-	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1
-		defensa = defensa + aumento 
-	}
+
 	method agregarCarta(){
 		mano.add(mazo.head())
-		mano = mano.filter{i => i != []}	
+		//mano = mano.filter{i => i != []}	
+		mazo.remove(mazo.head())
+		game.addVisual(mano.last())
 	}
 
 
@@ -199,26 +207,58 @@ class Menu{
 	const hormonas = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
 	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
-	const dibu2 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
-	const dibu3 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
+	const dibu2 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2)
+	const dibu3 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2)
+	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	
-	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2,dibu3]
+	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2,dibu3,dibu4]
 	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
 	
-	const staminaM= new Stamina(x= 360, y=600)
-	const staminaP= new Stamina(x= 800, y=400)
+	const vidaP = new Atributo(nro = 500, x= 900,y = 800, imagen ="BarritaVida.png")
+	const staminaP= new Atributo(nro =2,x= 900, y=600, imagen="stamina.png")
+	const defensaP = new Atributo(nro = 0.2, x= 900, y= 500, imagen ="stamina.png")
+	const danioP = new Atributo(nro = 30, x=900 , y= 400, imagen ="stamina.png")	
+		
 	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaM)
-	const enemigo1 = new Personaje(vida = 30, danio = 40, defensa = 0.2, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=staminaP)
+	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577, imagen ="BarritaVida.png")
+	const staminaMessi= new Atributo(nro = 2, x= 270, y=600, imagen= "stamina.png")
+	const defensaMessi = new Atributo(nro = 0.2, x= 270, y= 500, imagen ="stamina.png")
+	const danioMessi = new Atributo(nro = 30, x=270 , y= 400, imagen ="stamina.png") 
+	
+	
+	const messi = new Personaje(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
+	const enemigo1 = new Personaje(vida = vidaP, danio = danioP, defensa = defensaP, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=staminaP)
 	
 	method iniciarMenu(){
 		self.inicializarMano(messi)
 		game.addVisual(messi.devolverStamina())
+		game.addVisual(messi.devolverVida())
+		game.addVisual(messi.devolverDefensa())
+		game.addVisual(messi.devolverDanio())
+		game.addVisual(cursor)
+		//mismos addVisual para el enemigo
+		game.addVisual(enemigo1.devolverStamina())
+		game.addVisual(enemigo1.devolverVida())
+		game.addVisual(enemigo1.devolverDefensa())
+		game.addVisual(enemigo1.devolverDanio())
+		
 	}
 	
 	method inicializarMano(personaje){
+		var i=0
+		
 		personaje.asignarMazo()
 		personaje.asignarMano()
+		personaje.mano().forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
+		personaje.mano().forEach { carta => game.addVisual(carta)}
+		
+		method agregarCarta(){
+		mano.add(mazo.head())
+		//mano = mano.filter{i => i != []}	
+		mano.last().cambiarX(981)
+		game.addVisual(mano.last())
+	}
+		
 	}
 
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
@@ -227,51 +267,31 @@ class Menu{
 	method movimiento(){
 		keyboard.right().onPressDo{cursor.moverDerecha()}
 		keyboard.left().onPressDo{cursor.moverIzquierda()}
-		keyboard.enter().onPressDo{messi.juega(enemigo1, cursor.obtenerIndice());self.mostrarEnPantalla(messi.mano())}
+		keyboard.enter().onPressDo{messi.juega(enemigo1, cursor.obtenerIndice());self.modificarPosicionCartas(messi.mano());self.empezarTurno(cursor)}
 		
 	}
-	//method elegirCarta(cursor){   
-	//	var r=0
-	//	game.addVisual(cursor)
-	//	keyboard.right().onPressDo{cursor.moverDerecha()}
-	//	keyboard.left().onPressDo{cursor.moverIzquierda()}
-
-	//	keyboard.enter().onPressDo{r= cursor.obtenerIndice()}
-		
-	//	return r
-	//}
-	
 	
 	method empezarTurno(cursor){
-		
-		self.mostrarEnPantalla(messi.mano())
-		
-		//game.addVisual(cursor)
-		
-		//keyboard.left().onPressDo{cursor.moverIzquierda()}
-
-		// messi.juega(enemigo1, self.elegirCarta(cursor))	
-
-		if(self.estaMuerto(messi)){ //se deberia mostrar algo como gano francia 
-		game.removeVisual(cursor)
+		messi.incrementarStamina()
+		if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
+			game.removeVisual(cursor)
 		}
 		else {
-			if(self.estaMuerto(enemigo1)){ // animacion de que muere enemigo y se muestra un "gano Argentina"
+			if(enemigo1.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
 			game.removeVisual(cursor) 
 			} 
 			else {
 			 	if(messi.mano().size()<5){
 			 		messi.agregarCarta()				 
 				}
-				self.mostrarEnPantalla(messi.mano())
-				messi.incrementarStamina()
-				self.empezarTurno(cursor) //caso en el que no murio nadie
+					//self.modificarPosicionCartas(messi.mano())
+					 //caso en el que no murio nadie
 			}
 		} 
 		
 	}
 	
-	method mostrarEnPantalla(mano){	// SE QUE ES FEO PERO LO HICE ASI DE MOMENTO PARA TANTEAR
+	method modificarPosicionCartas(mano){	
 		
 		var i = 0
 		mano.forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }		
@@ -302,39 +322,15 @@ class Menu{
             }
         }
 	}
-	// el tablero va de 38 a 1162, se dejan 64,75 pixeles entre cada carta
-	//quiero que entre cada carta se dejen 64,75 pixeles
-	//la primera posicion para mostrar carta es 38, 17, siendo la 1ra la que varia
-	//De todas formas hay siempre como maximo 5 cartas, asi que tal vez podria tener las posiciones definidas
-	//Serian: 30 , 213 , 376 , 559, 742 
-	//method mostrarListaCartas(listaCartas){
-//		var posInicial = game.at(38,17)
-	//	listaCartas.forEach({c => self.mostrarCartaPantallaPosicion(c,posInicial)})
-	//}
+
 	
-	//method mostrarCartaPantallaPosicion(carta, posicion){
-	//	game.addVisualIn(carta, posicion)
-	//}
-	
-	method consultarVida(personaje){
-	return personaje.vidaPersonaje()
-	}
-	
-	method consultarDefensa(personaje){
-	return personaje.devolverDefensa()
-	}
-		
-	method estaMuerto(personaje){
-		return (self.consultarVida(personaje) == 0)
-	}
 	method devolverEnemigoActual(){
 		return enemigo1
-	}
+		}
 	method devolverMessi(){
-	return messi
+		return messi
+		}
+
 	}
-
-}
-
 
 
