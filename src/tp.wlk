@@ -45,11 +45,12 @@ object tpIntegrador {
 		game.addVisual(menuInicio.devolverEnemigoActual())
 		menuInicio.iniciarMenu()
 		menuInicio.movimiento()
-		menuInicio.empezarTurno(cursor)
+		menuInicio.empezarTurno()
 		}
 }
 object paleta { 
 const property rojo = "FF0000FF"
+const property blanco = "FFFFFF"
 	}
 class Atributo{
 	var nro 
@@ -60,10 +61,10 @@ class Atributo{
 	method position() = game.at(x,y)
 	method image()= imagen
 	method text() = nro.toString()
-	method textColor() = paleta.rojo()
+	method textColor() = paleta.blanco()
 	method valor() = nro
 	method modificarValor(i){
-		nro = nro +i
+		nro +=i
 	}
 }
 
@@ -132,13 +133,16 @@ class Personaje{
 	}
 
 	method agregarCarta(){
+		if (mazo.size() > 0){ 
 		mano.add(mazo.head())
 		//mano = mano.filter{i => i != []}	
 		mazo.remove(mazo.head())
+		mano.last().cambiarX(981)
 		game.addVisual(mano.last())
 	}
+	}
 
-
+   
 	method sePuedeJugar(carta){
 		return	carta.consultarCosto() <= stamina.valor()
 	}
@@ -154,12 +158,19 @@ class Personaje{
 		
 		} else { game.say(c,"No me podes jugar te falta mana")
 		}
-		//	mano.add(mazo.head())
-		
+		//	mano.add(mazo.head())	
 	}
+	method juegaEnemigo (messi){
+		var c = mano.get(0)
+		if (self.sePuedeJugar(c)){
+			c.hacerEfecto(self,messi)
+			//mano.remove(c)
+			self.restarStamina(c.consultarCosto())
+		
+		} else { game.say(c,"No me podes jugar te falta mana")
 }
-
-
+}
+}
 // keyboard.i().onPressDo { game.say(pepita, "hola!") }
 // keyboard.rigth().onPressDo {cambiar posicion cursor }
 // keyboard.backspace().onPressDo { jugar la carta con posicion cursor}
@@ -202,35 +213,43 @@ class CartaAumento inherits Carta{
 }
 
 class Menu{
+	var juegaMessi = true
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "Dibu2.png", x= 441)
-	const hormonas = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
-	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
+	const balonesDeOro2 = new CartaAtaque(costo = 1 , ruta = "MilaGod.png", x= 441)
+	const balonesDeOro3 = new CartaAtaque(costo = 1 , ruta = "Dibu2.png", x= 441)
+	const balonesDeOro4 = new CartaAtaque(costo = 1 , ruta = "MilaGod.png", x= 441)
+	const balonesDeOro5 = new CartaAtaque(costo = 1 , ruta = "Dibu2.png", x= 441)
+	const balonesDeOro6 = new CartaAtaque(costo = 1 , ruta = "Siestita.png", x= 441)
+	const hormonas = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 221, aumento= 10)
+	const hormonas1 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 221, aumento= 10)
+	const dibu = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
 	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	const dibu2 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2)
 	const dibu3 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2)
 	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
 	
-	const listaMessi = [balonesDeOro, hormonas, dibu,hormonas2,dibu2,dibu3,dibu4]
-	const listaEnemigo = [hormonas,hormonas, balonesDeOro]
+	const listaMessi = [balonesDeOro, hormonas, balonesDeOro2,balonesDeOro3,balonesDeOro4,balonesDeOro5,dibu4,hormonas1, balonesDeOro6]
+	const listaEnemigo = [balonesDeOro,hormonas, balonesDeOro,balonesDeOro,hormonas, balonesDeOro,balonesDeOro,hormonas, balonesDeOro,balonesDeOro,hormonas, balonesDeOro]
 	
-	const vidaP = new Atributo(nro = 500, x= 900,y = 800, imagen ="BarritaVida.png")
+	const vidaP = new Atributo(nro = 500, x= 700,y = 577, imagen ="BarritaVida.png")
 	const staminaP= new Atributo(nro =2,x= 900, y=600, imagen="stamina.png")
-	const defensaP = new Atributo(nro = 0.2, x= 900, y= 500, imagen ="stamina.png")
-	const danioP = new Atributo(nro = 30, x=900 , y= 400, imagen ="stamina.png")	
+	const defensaP = new Atributo(nro = 0.2, x= 900, y= 500, imagen ="defensa.png")
+	const danioP = new Atributo(nro = 30, x=900 , y= 400, imagen ="ataque.png")	
 		
 	
 	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577, imagen ="BarritaVida.png")
 	const staminaMessi= new Atributo(nro = 2, x= 270, y=600, imagen= "stamina.png")
-	const defensaMessi = new Atributo(nro = 0.2, x= 270, y= 500, imagen ="stamina.png")
-	const danioMessi = new Atributo(nro = 30, x=270 , y= 400, imagen ="stamina.png") 
+	const defensaMessi = new Atributo(nro = 0.2, x= 270, y= 500, imagen ="defensa.png")
+	const danioMessi = new Atributo(nro = 30, x=270 , y= 400, imagen ="ataque.png") 
 	
 	
 	const messi = new Personaje(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
 	const enemigo1 = new Personaje(vida = vidaP, danio = danioP, defensa = defensaP, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=staminaP)
 	
 	method iniciarMenu(){
-		self.inicializarMano(messi)
+		self.inicializarMano()
+		self.iniciarManoP()
 		game.addVisual(messi.devolverStamina())
 		game.addVisual(messi.devolverVida())
 		game.addVisual(messi.devolverDefensa())
@@ -244,21 +263,16 @@ class Menu{
 		
 	}
 	
-	method inicializarMano(personaje){
+	method inicializarMano(){
 		var i=0
-		
-		personaje.asignarMazo()
-		personaje.asignarMano()
-		personaje.mano().forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
-		personaje.mano().forEach { carta => game.addVisual(carta)}
-		
-		method agregarCarta(){
-		mano.add(mazo.head())
-		//mano = mano.filter{i => i != []}	
-		mano.last().cambiarX(981)
-		game.addVisual(mano.last())
-	}
-		
+		messi.asignarMazo()
+		messi.asignarMano()
+		messi.mano().forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
+		messi.mano().forEach { carta => game.addVisual(carta)}
+}				
+	method iniciarManoP(){
+		enemigo1.asignarMazo()
+		enemigo1.asignarMano()
 	}
 
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
@@ -267,18 +281,40 @@ class Menu{
 	method movimiento(){
 		keyboard.right().onPressDo{cursor.moverDerecha()}
 		keyboard.left().onPressDo{cursor.moverIzquierda()}
-		keyboard.enter().onPressDo{messi.juega(enemigo1, cursor.obtenerIndice());self.modificarPosicionCartas(messi.mano());self.empezarTurno(cursor)}
+		keyboard.enter().onPressDo{self.turnoMessi()}
 		
 	}
-	
-	method empezarTurno(cursor){
+	method turnoMessi(){
+		if (juegaMessi){
+			game.removeVisual(cursor)
+			juegaMessi=false
+			messi.juega(enemigo1, cursor.obtenerIndice())
+			self.modificarPosicionCartas(messi.mano())
+			game.schedule(5000, { self.turnoEnemigo() })
+			//self.turnoEnemigo()
+			self.empezarTurno()
+		}
+	}
+	method turnoEnemigo(){
+			enemigo1.juegaEnemigo(messi)	
+			game.schedule(5000, {juegaMessi=true;game.addVisual(cursor)})
+			//juegaMessi=true
+			//game.addVisual(cursor)
+			game.say(messi,"Entre en el turno enemigo")
+			
+	}
+	method empezarTurno(){
 		messi.incrementarStamina()
+		enemigo1.incrementarStamina()
+		
 		if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
 			game.removeVisual(cursor)
+			game.say(messi,"Este puto me mato")
 		}
 		else {
 			if(enemigo1.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
 			game.removeVisual(cursor) 
+			game.say(enemigo1,"La re palme")
 			} 
 			else {
 			 	if(messi.mano().size()<5){
@@ -288,8 +324,8 @@ class Menu{
 					 //caso en el que no murio nadie
 			}
 		} 
-		
-	}
+	}	
+	
 	
 	method modificarPosicionCartas(mano){	
 		
