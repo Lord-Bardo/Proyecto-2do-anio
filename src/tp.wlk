@@ -66,6 +66,9 @@ class Atributo{
 	method modificarValor(i){
 		nro +=i
 	}
+	method cambiarValorA(i){
+		nro = i
+	}
 }
 
 class Personaje{
@@ -80,6 +83,22 @@ class Personaje{
 	var mano = new List()
 	var mazo = new List()
 	
+
+	
+	method aumentarAtributo(aumento,atributo){
+		if(atributo== "defensa"){
+			defensa.cambiarValorA(90.min(self.consultarDefensa()+aumento))
+		}
+		if(atributo =="danio"){
+			danio.modificarValor(aumento)
+		}
+		if(atributo =="vida"){
+			vida.modificarValor(aumento)
+		}
+		if(atributo =="stamina"){
+			stamina.modificarValor(aumento)
+		}
+	}
 	
 	method asignarMazo(){
 		mazo = listaCartas.drop(5)
@@ -117,7 +136,7 @@ class Personaje{
 	}
 	
 	method recibeDanio(dmg){
-		vida.modificarValor(-danio.valor() * (1- defensa.valor()))
+		vida.modificarValor(-danio.valor() * (100- defensa.valor())/100)
 	}
 	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1 
 		defensa.modificarValor(+aumento)
@@ -207,8 +226,9 @@ class CartaAtaque inherits Carta{
 }
 class CartaAumento inherits Carta{
 	var aumento
+	var atributo
 	method hacerEfecto(personaje, atacado){
-		personaje.aumentarDefensa(aumento)
+		personaje.aumentarAtributo(aumento,atributo)
 	}	
 }
 
@@ -221,26 +241,26 @@ class Menu{
 	const balonesDeOro4 = new CartaAtaque(costo = 1 , ruta = "MilaGod.png", x= 441)
 	const balonesDeOro5 = new CartaAtaque(costo = 1 , ruta = "Dibu2.png", x= 441)
 	const balonesDeOro6 = new CartaAtaque(costo = 1 , ruta = "Siestita.png", x= 441)
-	const hormonas = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 221, aumento= 10)
-	const hormonas1 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 221, aumento= 10)
-	const dibu = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 0.2)
-	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
-	const dibu2 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2)
-	const dibu3 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2)
-	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10)
+	const hormonas = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 221, aumento= 10, atributo="danio")
+	const hormonas1 = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 221, aumento= 10,atributo= "danio")
+	const dibu = new CartaAumento(costo = 1, ruta = "Siestita.png", x= 38, aumento= 20,atributo= "defensa")
+	const hormonas2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10,atributo= "danio")
+	const dibu2 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2,atributo= "defensa")
+	const dibu3 = new CartaAumento(costo = 2, ruta = "Siestita.png", x= 38, aumento= 0.2,atributo= "defensa")
+	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 221, aumento= 10,atributo= "defensa")
 	
 	const listaMessi = [balonesDeOro, hormonas, balonesDeOro2,balonesDeOro3,balonesDeOro4,balonesDeOro5,dibu4,hormonas1, balonesDeOro6]
 	const listaEnemigo = [balonesDeOro,hormonas, balonesDeOro,balonesDeOro,hormonas, balonesDeOro,balonesDeOro,hormonas, balonesDeOro,balonesDeOro,hormonas, balonesDeOro]
 	
 	const vidaP = new Atributo(nro = 500, x= 700,y = 577, imagen ="BarritaVida.png")
 	const staminaP= new Atributo(nro =2,x= 900, y=600, imagen="stamina.png")
-	const defensaP = new Atributo(nro = 0.2, x= 900, y= 500, imagen ="defensa.png")
+	const defensaP = new Atributo(nro = 30, x= 900, y= 500, imagen ="defensa.png")
 	const danioP = new Atributo(nro = 30, x=900 , y= 400, imagen ="ataque.png")	
 		
 	
 	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577, imagen ="BarritaVida.png")
 	const staminaMessi= new Atributo(nro = 2, x= 270, y=600, imagen= "stamina.png")
-	const defensaMessi = new Atributo(nro = 0.2, x= 270, y= 500, imagen ="defensa.png")
+	const defensaMessi = new Atributo(nro = 10, x= 270, y= 500, imagen ="defensa.png")
 	const danioMessi = new Atributo(nro = 30, x=270 , y= 400, imagen ="ataque.png") 
 	
 	
@@ -290,14 +310,14 @@ class Menu{
 			juegaMessi=false
 			messi.juega(enemigo1, cursor.obtenerIndice())
 			self.modificarPosicionCartas(messi.mano())
-			game.schedule(5000, { self.turnoEnemigo() })
+			game.schedule(3000, { self.turnoEnemigo() })
 			//self.turnoEnemigo()
 			self.empezarTurno()
 		}
 	}
 	method turnoEnemigo(){
 			enemigo1.juegaEnemigo(messi)	
-			game.schedule(5000, {juegaMessi=true;game.addVisual(cursor)})
+			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
 			//juegaMessi=true
 			//game.addVisual(cursor)
 			game.say(messi,"Entre en el turno enemigo")
