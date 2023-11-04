@@ -52,6 +52,7 @@ object paleta {
 const property rojo = "FF0000FF"
 const property blanco = "FFFFFF"
 	}
+	
 class Atributo{
 	var nro 
 	const x
@@ -63,7 +64,7 @@ class Atributo{
 	method text() = nro.toString()
 	method textColor() = paleta.blanco()
 	method valor() = nro
-	method modificarValor(i){
+	method modificarValor(i){ //deberia llamarse sumar valor
 		nro +=i
 	}
 	method cambiarValorA(i){
@@ -125,7 +126,7 @@ class Personaje{
 	
 	method consultarVida()= 0.max(vida.valor())
 	method consultarDanio()= danio.valor()
-	method constultarStamina() = stamina.valor()
+	method consultarStamina() = stamina.valor()	
 	method consultarDefensa() = defensa.valor()
 	
 	method atacar(objetivo){
@@ -136,7 +137,7 @@ class Personaje{
 	}
 	
 	method recibeDanio(dmg){
-		vida.modificarValor(-danio.valor() * (100- defensa.valor())/100)
+		vida.modificarValor(-dmg* (100- defensa.valor())/100)
 	}
 	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1 
 		defensa.modificarValor(+aumento)

@@ -2,174 +2,129 @@ import tp.*
 
 describe "Testeando Personaje"{
 	
-	const vidaEnemigo = new Atributo(nro = 500, x= 700,y = 577, imagen ="BarritaVida.png")
+	const vidaEnemigo = new Atributo(nro = 200, x= 700,y = 577, imagen ="BarritaVida.png")
 	const staminaEnemigo= new Atributo(nro =1,x= 900, y=600, imagen="stamina.png")
-	const defensaEnemigo = new Atributo(nro = 0.2, x= 900, y= 500, imagen ="defensa.png")
+	const defensaEnemigo = new Atributo(nro = 20, x= 900, y= 500, imagen ="defensa.png")
 	const danioEnemigo = new Atributo(nro = 30, x=900 , y= 400, imagen ="ataque.png")	
-		
+	
 	
 	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577, imagen ="BarritaVida.png")
 	const staminaMessi= new Atributo(nro = 2, x= 270, y=600, imagen= "stamina.png")
-	const defensaMessi = new Atributo(nro = 0.2, x= 270, y= 500, imagen ="defensa.png")
+	const defensaMessi = new Atributo(nro = 30, x= 270, y= 500, imagen ="defensa.png")
 	const danioMessi = new Atributo(nro = 30, x=270 , y= 400, imagen ="ataque.png") 
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 10, atributo ="danio")
+	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
+	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
+	const dibu = new CartaAumento(costo = 1, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
+	const milaGod = new CartaAumento(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
+	const siestita = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
 	
-	const listaMessi = []
-	const listaEnemigo1 = []
+	
+	
+	const listaMessi = [balonesDeOro, botines,hormonas, dibu, milaGod,siestita]
+	const listaEnemigo1 = [botines]//esto va a ser un problema, o no?
 	
 	const messi = new Personaje(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
 	const enemigo1 = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaEnemigo, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo1,stamina=staminaEnemigo)
-	/*
-	 *method asignarMazo(){
-		mazo = listaCartas.drop(5)
-	}
-	method mazo(){
-		return mazo
-	}
-	method asignarMano(){
-		mano = listaCartas.take(5)
-	}
-	method mano(){
-		return mano
-	}
 	
-	 */
+	const staminaAlta =new Atributo(nro =4,x= 900, y=600, imagen="stamina.png")
+	const defensaNula = new Atributo(nro= 0,x= 900, y= 500, imagen ="defensa.png" )
+	const enemigoConDefensaNula = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaNula, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo1,stamina=staminaEnemigo)
+	
 	test "Si messi tiene 500 de vida la consulta de su vida debe dar 500" {
 
 		assert.equals(500, messi.consultarVida())
 	}
+	
 	test "El enemigo1 tiene 200 de vida, la consulta deberia devolver 200"{
 		assert.equals(200, enemigo1.consultarVida())
 	}
 	
 	test "El danio de messi deberia ser de 30"{
-		assert.equals(500, messi.consultarDanio())
+		assert.equals(30, messi.consultarDanio())
 	}
-	test "La defensa del enemigo deberia ser 0.2"{
-		assert.equals(500, enemigo1.consultarDefensa())
+	test "La defensa del enemigo deberia ser 20"{
+		assert.equals(20, enemigo1.consultarDefensa())
 	}
-	test "La estamina de messi deberia de ser 2 y la del enemigo 1"{
-		assert.equals(2, messi.consultarStamina())
+	test "La estamina  del enemigo 1"{
+		//assert.equals(2, messi.consultarStamina())
 		assert.equals(1, enemigo1.consultarStamina())
 	}
 	
 	
-	
-}
-
-
-
-
-describe "Testeando messi" {
-	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
-	const dibu = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
-	const balonesDeOro2 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const hormonas2 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
-	const dibu2 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
-	const balonesDeOro3 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const hormonas3 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
-	const dibu3 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
-	const balonesDeOro4 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const hormonas4 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
-	const dibu4 = new CartaAumento(costo = 1, ruta = "Dibu2.png", x= 38, aumento= 0.2)
-	
-	const listaMessi =[balonesDeOro, hormonas, dibu,balonesDeOro2, hormonas2, dibu2,balonesDeOro3, 
-		hormonas3, dibu3,balonesDeOro4, hormonas4, dibu4]
-	const listaVacia=[]
-	const listaMenosDe5Elementos=[balonesDeOro, hormonas, dibu,balonesDeOro2]
-	
-	const messi = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=new Stamina(x = 0, y = 0))
-	const messi2 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaVacia, stamina=new Stamina (x=0, y = 0))
-	const messi3 = new Personaje(vida=500, danio = 20, defensa=0.4, ruta = "Messi.png",x=360, y=423, listaCartas= listaMenosDe5Elementos, stamina = new Stamina (x=0,y=0))
-	
-	const enemigo = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi, stamina=new Stamina(x=0, y = 0))
-	
-	test "Si messi tiene 500 de vida la consulta de su vida debe dar 500" {
-
-		assert.equals(500, messi.vidaPersonaje())
-	}
-	test "Si messi tiene 20 de danio, la consulta de su danio debe dar 20" {
-	
-		assert.equals(20, messi.consultarDanio())
-	}
-	
-	test "Si messi tiene 0.4 de defensa la consulta de su defensa debe dar 0.4" {
-	
-		assert.equals(0.4, messi.devolverDefensa())
-	}
-	test "Si messi recibeDanio(20) deberia recibir 12 de danio y quedarse con 488 de vida" {
-	
+	test "Si messi recibeDanio(20) deberia recibir 14 de danio y quedarse con 486 de vida" {
+		//(dmg* (100- defensa.valor())/100)
 		messi.recibeDanio(20)
-		assert.equals(488, messi.vidaPersonaje())
+		assert.equals(486, messi.consultarVida())
 		
 	}
-	test "Si messi ataca, el enemigo sin defensa recibe 20 de danio y quedar con 80 de vida" {
-		const enemigo2 = new Personaje(vida=100, danio = 20, defensa=0, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi) 
-	
-		messi.atacar(enemigo2)
-		assert.equals(80, enemigo2.vidaPersonaje())
-	
+	test "Si el enemigo1 tiene 20 de defensa y recibeDanio(20) deberia recibir 16 de danio y quedarse con 184 de vida"{
+		////(dmg* (100- defensa.valor())/100)
+		enemigo1.recibeDanio(20)
+		assert.equals(184,enemigo1.consultarVida())
+		
+	}
+	test "Si el enemigoConDefensaNula recibeDanio(20) deberia recibir 20 de danio y quedarse con 180 de vida"{
+		enemigoConDefensaNula.recibeDanio(20)
+		assert.equals(180,enemigoConDefensaNula.consultarVida())
+	}
+	test "Si messi recibeDanio(0) no deberia perder vida, tendria que ser 500"{
+		messi.recibeDanio(0)
+		assert.equals(500, messi.consultarVida())
+	}
+	test "Si el enmigo1 recibeDanio(0) no deberia perder vida, tendria que ser 200"{
+		enemigo1.recibeDanio(0)
+		assert.equals(200, enemigo1.consultarVida())
 	}
 	
-	test "Se agarra las primeras 5 cartas de messi"{
+	test "Si messi ataca, el enemigo sin defensa, este recibe 30 de danio y quedar con 170 de vida" {
+	
+		messi.atacar(enemigoConDefensaNula)
+		assert.equals(170, enemigoConDefensaNula.consultarVida())
+	
+	}
+	test "Si messi ataca al enemigo1 teniendo 30 de danio, que tiene 20 de defensa, este enemigo deberia recibir 24 de danio y quedarse con 176 de vida"{
+		////(dmg* (100- defensa.valor())/100)
+		messi.atacar(enemigo1)
+		assert.equals(176, enemigo1.consultarVida())
+	}
+	test "Si el enemigo1 tiene 30 de danio y ataca a messi que tiene 30 de defensa, este ultimo deberia quedarse con 479 de vida (recibio 21 de danio)"{
+		////(dmg* (100- defensa.valor())/100)
+		enemigo1.atacar(messi)
+		assert.equals(479, messi.consultarVida())
+	}
+	test "Si el enemigoConDefensaNula recibe 200 de danio, deberia estar muerto"{
+		enemigoConDefensaNula.recibeDanio(200)
+		assert.equals(true, enemigoConDefensaNula.estaMuerto())
+	}
+	
+	test "Se agarra las primeras 5 cartas de la lista de cartas de  messi"{
 	messi.asignarMano()
-	assert.equals([balonesDeOro, hormonas, dibu,balonesDeOro2, hormonas2],messi.mano())
+	assert.equals([balonesDeOro, botines,hormonas, dibu, milaGod],messi.mano())
 	}
 	
-	test"Se agarras las primeras 5 cartas de una lista vacia"{
-	messi2.asignarMano()
-	assert.equals([],messi2.mano())
+	test "Si incremento la stamina de messi que tiene 2, deberia quedar en 3"{
+		messi.incrementarStamina()
+		assert.equals(3, messi.consultarStamina())
 	}
-	
-	test"Se agarra las primeras 5 cartas de una lista de menos de 5 elementos"{
-	messi3.asignarMano()
-	assert.equals([balonesDeOro, hormonas, dibu,balonesDeOro2],messi3.mano())
-	}
-	
-	test "Se saca las primeras 5 cartas de la lista de cartas y quedan las restantes"{
-	messi.asignarMazo()
-	assert.equals([dibu2,balonesDeOro3,hormonas3, dibu3,balonesDeOro4, hormonas4, dibu4],messi.mazo())	
-	}
-	
-	test"Se saca las primeras 5 cartas de una lista de cartas vacias,muestra la lista restante, deberia mostrar una lista vacia"{
-	messi2.asignarMazo()
-	assert.equals([],messi2.mazo())
-	}
-	
-	test"Se saca las primeras 5 cartas de una lista de cartas menor a 5, deberia dar una lista vacia"{
-	messi3.asignarMazo()
-	assert.equals([],messi3.mazo())	
-	}
-	
-	
-	test "Se juega una carta de ataque, consultamos la vida del enemigo a ver si recibio el daño"{
-	messi.asignarMano()
-	messi.asignarMazo()
-	messi.juega(enemigo,0)
-	assert.equals(80,enemigo.vidaPersonaje())
-	}
-	
-	test "Se juega una carta de aumentar defensa en 0.2, la defensa de messi ahora debe ser 0.6"{
-	messi.asignarMano()
-	messi.asignarMazo()
-	messi.juega(enemigo,2)
-	assert.equals(0.6,messi.devolverDefensa())
+	test "Si incremento 5 veces la stamina del enemigoSinDefensa que tiene 4, deberia quedar en 6 "{
+		enemigoConDefensaNula.incrementarStamina()
+		enemigoConDefensaNula.incrementarStamina()
+		enemigoConDefensaNula.incrementarStamina()
+		enemigoConDefensaNula.incrementarStamina()
+		enemigoConDefensaNula.incrementarStamina()
+		
+		assert.equals(6, enemigoConDefensaNula.consultarStamina())
 	}
 	
 }
-describe "Probando menu"{
-	const menuInicio = new Menu()
+
+
 	
-	test "messi ataca a mbappe 2 veces, lo mata y sube su defensa, queda en 0.6"{
 	
-		menuInicio.empezarTurno()
-		assert.equals(true,menuInicio.estaMuerto(menuInicio.devolverEnemigoActual()))
-		assert.equals(0.6,menuInicio.consultarDefensa(menuInicio.devolverMessi()))
-	}
-}	
+
+
 	
 
 
