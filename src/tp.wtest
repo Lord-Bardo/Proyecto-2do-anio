@@ -122,6 +122,19 @@ describe "Testeando Personaje"{
 		enemigoConDefensaNula.recibeDanio(200)
 		assert.equals(true, enemigoConDefensaNula.estaMuerto())
 	}
+	/*
+	 * tenes 5 de vida
+perdes 7 de vida
+si preguntas la vida, dice 0
+recuperas 1 de vida
+si preguntas la vida, sigue diciendo 0
+	 */
+	test "Si messi recibe 740 de danio y luego recupera 10 de vida deberia tener 0 de vida"{
+		messi.recibeDanio(740)
+		assert.equals(0,messi.consultarVida())
+		
+	}
+	
 	
 	test "Se agarra las primeras 5 cartas de la lista de cartas de  messi"{
 	messi.asignarMano()
@@ -249,6 +262,7 @@ describe "Testeando Menu"{
 			assert.equals(false, game.hasVisual(c))
 			
 		}
+	
 	
 	/*
 	 * method movimiento(){

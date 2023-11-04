@@ -32,8 +32,16 @@ object cursor {
 		return indice
 	}
 }
-object pantallaFinal{
+object pantallaFinalArgentina{
 	const ruta="campeones.png"
+	method position() = game.at(0,0)
+	
+	method image(){
+		return ruta	
+}
+}
+object pantallaFinalFrancia{
+	const ruta="fotoGanaFrancia.png"
 	method position() = game.at(0,0)
 	
 	method image(){
@@ -343,7 +351,7 @@ class Menu{
 			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
 			//juegaMessi=true
 			//game.addVisual(cursor)
-			game.say(messi,"Entre en el turno enemigo")
+			//game.say(messi,"Entre en el turno enemigo")
 			
 	}
 	method empezarTurno(){
@@ -351,14 +359,13 @@ class Menu{
 		enemigo1.incrementarStamina()
 		
 		if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
-			game.say(messi,"Este puto me mato")
-			game.removeVisual(cursor)
+			game.clear()
+			game.addVisual(pantallaFinalFrancia)
 		}
 		else {
 			if(enemigo1.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
-			game.say(enemigo1,"La re palme")
 			game.clear()
-			game.addVisual(pantallaFinal)
+			game.addVisual(pantallaFinalArgentina)
 			} 
 			else {
 			 	if(messi.mano().size()<5){
