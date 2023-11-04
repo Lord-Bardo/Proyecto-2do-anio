@@ -1,4 +1,27 @@
 import tp.*
+import wollok.game.*
+
+describe "Testeando el cursor"{
+	
+	//Posiciones Cartas: 34 , 269.75 , 505.5 , 741.25, 977 
+	test "Si muevo el cursor a la derecha, y estaba en la 1ra posicion deberia quedar en la 2da"{
+		cursor.moverDerecha()
+		assert.equals(1, cursor.obtenerIndice())
+	}
+	test "Si muevo el cursor a la izquierda, y estaba en la 1ra posicion deberia quedar en la 5ta"{
+		cursor.moverIzquierda()
+		assert.equals(4, cursor.obtenerIndice())
+	}
+		test "Si muevo el cursor a la derecha 5 veces , y estaba en la 1ra posicion deberia quedar en la 1ra de vuelta"{
+		cursor.moverDerecha()
+		cursor.moverDerecha()
+		cursor.moverDerecha()
+		cursor.moverDerecha()
+		cursor.moverDerecha()
+		assert.equals(0, cursor.obtenerIndice())
+	}
+	
+}
 
 describe "Testeando Personaje"{
 	
@@ -16,8 +39,8 @@ describe "Testeando Personaje"{
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
 	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
-	const dibu = new CartaAumento(costo = 1, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
-	const milaGod = new CartaAumento(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
+	const dibu = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
+	const milaGod = new CartaAumento(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
 	const siestita = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
 	
 	
@@ -32,6 +55,7 @@ describe "Testeando Personaje"{
 	const defensaNula = new Atributo(nro= 0,x= 900, y= 500, imagen ="defensa.png" )
 	const enemigoConDefensaNula = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaNula, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo1,stamina=staminaEnemigo)
 	
+
 	test "Si messi tiene 500 de vida la consulta de su vida debe dar 500" {
 
 		assert.equals(500, messi.consultarVida())
@@ -117,8 +141,146 @@ describe "Testeando Personaje"{
 		
 		assert.equals(6, enemigoConDefensaNula.consultarStamina())
 	}
+	/*
+	 * method sePuedeJugar(carta){
+		return	carta.consultarCosto() <= stamina.valor()
+	}
+	
+	 */
+	test "messi puede jugar cualquier carta de coste 1, x que tiene 2 de stamina"{
+		
+		assert.equals(true,messi.sePuedeJugar(balonesDeOro))
+	}
+	test "La estamina de messi es 2 no?"{
+		assert.equals(2,messi.consultarStamina())
+	}
+	test "messi no puede jugar la carta milaGod porque cuesta 3 y tiene 2 de stamina"{
+		assert.equals(false,messi.sePuedeJugar(milaGod))
+	}
+
+	
+	
 	
 }
+describe "Testeando Menu"{
+	const menuPrueba = new Menu() //ya crea todas las variables el menu
+	
+	const messiMenu = menuPrueba.devolverMessi()
+	const mbapeMenu = menuPrueba.devolverEnemigoActual()
+	
+	
+	
+	test "Al inicializar el menu deberian estar en pantalla los atributos de messi"{
+		menuPrueba.iniciarMenu()
+		assert.equals(true, game.hasVisual(messiMenu.devolverVida()))
+		assert.equals(true, game.hasVisual(messiMenu.devolverStamina()))
+		assert.equals(true, game.hasVisual(messiMenu.devolverDefensa()))
+		assert.equals(true, game.hasVisual(messiMenu.devolverDanio()))
+	}
+	test "Al iniciar el menu deberia aparecer el cursor en pantalla"{
+		menuPrueba.iniciarMenu()
+		assert.equals(true, game.hasVisual(cursor))
+	}
+	test "Al iniciar el menu deberia aparecer las estadisticas del enemigo actual (mbapee)"{
+		menuPrueba.iniciarMenu()
+		assert.equals(true, game.hasVisual(mbapeMenu.devolverVida()))
+		assert.equals(true, game.hasVisual(mbapeMenu.devolverStamina()))
+		assert.equals(true, game.hasVisual(mbapeMenu.devolverDefensa()))
+		assert.equals(true, game.hasVisual(mbapeMenu.devolverDanio()))
+	}
+	test "La funcion dondeVoy me deberia devolver 38 , 273.75 , 509.5 , 745.25, 981 respectivo para cada nro del 0 al 4"{
+		
+		assert.equals(38, menuPrueba.dondeVoy(0))
+		assert.equals(273.75, menuPrueba.dondeVoy(1))
+		assert.equals(509.5, menuPrueba.dondeVoy(2))
+		assert.equals(745.25, menuPrueba.dondeVoy(3))
+		assert.equals(981, menuPrueba.dondeVoy(4))
+		
+	}
+	test "Al iniciar el menu, deberian mostrarse en pantalla todas las cartas de la mano de messi"{
+		menuPrueba.iniciarMenu()
+		assert.equals(true, game.hasVisual(messiMenu.mano().get(0)))
+		assert.equals(true, game.hasVisual(messiMenu.mano().get(1)))
+		assert.equals(true, game.hasVisual(messiMenu.mano().get(2)))
+		assert.equals(true, game.hasVisual(messiMenu.mano().get(3)))
+		assert.equals(true, game.hasVisual(messiMenu.mano().get(4)))
+	}
+	test "Al iniciar el menu, la 1ra carta de la mano deberia estar en (38,15)"{ //anda raro esto, sera por el tamaño de las cartas que hay que cambiar ?
+		const posicion = game.at(38,15) 
+		menuPrueba.iniciarMenu()
+		assert.equals(messiMenu.mano().get(0), game.getObjectsIn(posicion).get(0))
+	}
+	test "Curiosidad: Pruebo a ver si alguna de las cartas en pantalla es la que pienso"{ //que raro esto che, consultar
+		const posicion = game.at(38,15) 
+		menuPrueba.iniciarMenu()
+		//assert.equals(messiMenu.mano().get(0), game.getObjectsIn(posicion).get(0))
+		assert.equals(true, messiMenu.mano().any({x =>x == game.getObjectsIn(posicion)}))
+	}
+		/*
+	 * method juega (enemigo, indice){
+		var c = mano.get(indice) l
+		if (self.sePuedeJugar(c)){l
+			c.hacerEfecto(self,enemigo)
+			mazo.add(c)
+			mano.remove(c)
+			game.removeVisual(c)
+			self.restarStamina(c.consultarCosto())
+		
+		} else { game.say(c,"No me podes jugar te falta mana")
+		}
+	 */
+	
+	test "Si el usuario selecciona la 1ra carta, se ejecuta messi.jugar(enemigo1,0) y deberian pasar las siguientes cosas:
+			-	La stamina de messi queda en 1 
+			-	La carta no deberia estar mas en pantalla
+			-	La carta no deberia estar mas en la mano
+			-	La carta deberia pasar a estar ultima en el mazo
+			-	Se efectua el efecto de la carta, le hace 210 de daño a mbapee que queda con 290 de vida"{
+			//danio messi 300 ,defensa mbapee 30, calculo 300*((100-30)/100)
+			menuPrueba.iniciarMenu()
+			
+			const c= messiMenu.mano().get(0)
+			messiMenu.juega(mbapeMenu,0)
+			assert.equals(290, mbapeMenu.consultarVida())
+			assert.equals(true, messiMenu.mazo().contains(c))
+			assert.equals(c, messiMenu.mazo().last())
+			assert.equals(false, messiMenu.mano().contains(c))
+			assert.equals(1, messiMenu.consultarStamina())
+			assert.equals(false, game.hasVisual(c))
+			
+		}
+	
+	/*
+	 * method movimiento(){
+		keyboard.enter().onPressDo{self.turnoMessi()}
+		
+	}
+	method turnoMessi(){
+		if (juegaMessi){
+			game.removeVisual(cursor)
+			juegaMessi=false
+			messi.juega(enemigo1, cursor.obtenerIndice())
+			self.modificarPosicionCartas(messi.mano())
+			game.schedule(3000, { self.turnoEnemigo() })
+			//self.turnoEnemigo()
+			self.empezarTurno()
+		}
+	}
+	method turnoEnemigo(){
+			enemigo1.juegaEnemigo(messi)	
+			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
+			//juegaMessi=true
+			//game.addVisual(cursor)
+			game.say(messi,"Entre en el turno enemigo")
+			
+	}
+	 */
+	
+}
+	
+
+	
+
 
 
 	
