@@ -329,8 +329,8 @@ class Menu{
 	
 	const messi = new Messi(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
 	const mbapee = new Personaje(vida = vidaP, danio = danioP, defensa = defensaP, ruta="Mbappe.png",x=740,y=420, listaCartas = listaMbapee,stamina=staminaP)
-	const modrik = new Personaje (vida = vidaMo, danio = danioMo, defensa = defensaMo, ruta ="Modric.png",x=740,y=420,listaCartas= listaMo,stamina=staminaMo )
-	const vanGal =  new Personaje (vida = vidaV, danio = danioV, defensa = defensaV, ruta ="VanGal.png",x=740,y=420,listaCartas= listaV,stamina=staminaV )
+	const modrik = new Personaje (vida = vidaMo, danio = danioMo, defensa = defensaMo, ruta ="modrik.png",x=740,y=420,listaCartas= listaMo,stamina=staminaMo )
+	const vanGal =  new Personaje (vida = vidaV, danio = danioV, defensa = defensaV, ruta ="vanGal.png",x=740,y=420,listaCartas= listaV,stamina=staminaV )
 	
 	method iniciarMenu(){
 		self.reasignarEnemigoActual()
