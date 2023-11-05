@@ -58,10 +58,7 @@ object tpIntegrador {
 		game.height(740)
 		game.boardGround("fondoCancha.png")
 		game.start()
-		game.addVisual(menuInicio.devolverMessi())
-		game.addVisual(menuInicio.devolverEnemigoActual())
 		menuInicio.iniciarMenu()
-		menuInicio.movimiento()
 		//menuInicio.empezarTurno()
 		}
 }
@@ -74,8 +71,11 @@ class Atributo{
 	var nro 
 	const x
 	const y
-	const imagen
+	var imagen =""
 	
+	method nuevaRuta(img){
+		imagen =img
+	}
 	method position() = game.at(x,y)
 	method image()= imagen
 	method text() = nro.toString()
@@ -101,7 +101,19 @@ class Personaje{
 	var mano = new List()
 	var mazo = new List()
 	
-
+	
+	method asignarImagenVida(){
+		vida.nuevaRuta("BarritaVida.png")
+	}
+	method asignarImagenDefensa(){
+		defensa.nuevaRuta("defensa.png")
+	}
+	method asignarImagenStamina(){
+		stamina.nuevaRuta("stamina.png")
+	}
+	method asignarImagenDanio(){
+		danio.nuevaRuta("ataque.png")
+	}
 	
 	method aumentarAtributo(aumento,atributo){
 		if(atributo== "defensa"){
@@ -186,32 +198,37 @@ class Personaje{
 		return	carta.consultarCosto() <= stamina.valor()
 	}
 	
+	method extra(indice){
+		
+	}
 	
 	method juega (enemigo, indice){
 		var c = mano.get(indice)
 		if (self.sePuedeJugar(c)){
-			c.hacerEfecto(self,enemigo)
 			mazo.add(c)
-			mano.remove(c)
-			game.removeVisual(c)
+			c.hacerEfecto(self,enemigo)
+			self.extra(indice)
 			self.restarStamina(c.consultarCosto())
 		
 		} else { game.say(c,"No me podes jugar te falta mana")
 		}
-		//	mano.add(mazo.head())	
+	
 	}
-	method juegaEnemigo (messi){
-		var c = mano.get(0)
-		if (self.sePuedeJugar(c)){
-			mazo.add(c)
-			c.hacerEfecto(self,messi)
-			//mano.remove(c)
-			self.restarStamina(c.consultarCosto())
+}
+/* */
+class Messi inherits Personaje{ //este es messi
+	
+	override method extra (indice){
+			var c = mano.get(indice)
+			mano.remove(c)
+			game.removeVisual(c)
 		
-		} else { game.say(c,"No me podes jugar te falta mana")
+		}
+		//	mano.add(mazo.head())	
 }
-}
-}
+
+
+
 // keyboard.i().onPressDo { game.say(pepita, "hola!") }
 // keyboard.rigth().onPressDo {cambiar posicion cursor }
 // keyboard.backspace().onPressDo { jugar la carta con posicion cursor}
@@ -256,6 +273,9 @@ class CartaAumento inherits Carta{
 
 class Menu{
 	var juegaMessi = true
+	var fase = 1
+	var enemigoActual = vanGal
+	
 	
 	const balonesDeOro1 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const balonesDeOro2 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
@@ -281,37 +301,66 @@ class Menu{
 	
 	
 	const listaMessi = [balonesDeOro1, hormonas1, balonesDeOro2,balonesDeOro3,balonesDeOro4,milaGod,siestita]
-	const listaEnemigo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaMo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaV = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	
-	const vidaP = new Atributo(nro = 500, x= 700,y = 577, imagen ="BarritaVida.png")
-	const staminaP= new Atributo(nro =2,x= 900, y=600, imagen="stamina.png")
-	const defensaP = new Atributo(nro = 30, x= 900, y= 500, imagen ="defensa.png")
-	const danioP = new Atributo(nro = 30, x=900 , y= 400, imagen ="ataque.png")	
+	const vidaP = new Atributo(nro = 500, x= 700,y = 577)
+	const staminaP= new Atributo(nro =2,x= 900, y=600)
+	const defensaP = new Atributo(nro = 30, x= 900, y= 500)
+	const danioP = new Atributo(nro = 30, x=900 , y= 400)	
+	
+	const vidaMo = new Atributo(nro = 500, x= 700,y = 577)
+	const staminaMo= new Atributo(nro =2,x= 900, y=600)
+	const defensaMo = new Atributo(nro = 30, x= 900, y= 500)
+	const danioMo = new Atributo(nro = 30, x=900 , y= 400)	
+	
+	const vidaV = new Atributo(nro = 500, x= 700,y = 577)
+	const staminaV= new Atributo(nro =2,x= 900, y=600)
+	const defensaV = new Atributo(nro = 30, x= 900, y= 500)
+	const danioV = new Atributo(nro = 30, x=900 , y= 400)
 		
 	
-	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577, imagen ="BarritaVida.png")
-	const staminaMessi= new Atributo(nro = 2, x= 270, y=600, imagen= "stamina.png")
-	const defensaMessi = new Atributo(nro = 10, x= 270, y= 500, imagen ="defensa.png")
-	const danioMessi = new Atributo(nro = 300, x=270 , y= 400, imagen ="ataque.png") 
+	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577)
+	const staminaMessi= new Atributo(nro = 2, x= 270, y=600)
+	const defensaMessi = new Atributo(nro = 10, x= 270, y= 500)
+	const danioMessi = new Atributo(nro = 300, x=270 , y= 400) 
 	
 	
-	const messi = new Personaje(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
-	const enemigo1 = new Personaje(vida = vidaP, danio = danioP, defensa = defensaP, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo,stamina=staminaP)
+	const messi = new Messi(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
+	const mbapee = new Personaje(vida = vidaP, danio = danioP, defensa = defensaP, ruta="Mbappe.png",x=740,y=420, listaCartas = listaMbapee,stamina=staminaP)
+	const modrik = new Personaje (vida = vidaMo, danio = danioMo, defensa = defensaMo, ruta ="Modric.png",x=740,y=420,listaCartas= listaMo,stamina=staminaMo )
+	const vanGal =  new Personaje (vida = vidaV, danio = danioV, defensa = defensaV, ruta ="VanGal.png",x=740,y=420,listaCartas= listaV,stamina=staminaV )
 	
 	method iniciarMenu(){
+		self.reasignarEnemigoActual()
+		
+		game.addVisual(messi)
+		game.addVisual(enemigoActual)
+		
+		self.asignacionImagenes(messi)
+		self.asignacionImagenes(enemigoActual)
+		
 		self.inicializarMano()
 		self.iniciarManoP()
-		game.addVisual(messi.devolverStamina())
-		game.addVisual(messi.devolverVida())
-		game.addVisual(messi.devolverDefensa())
-		game.addVisual(messi.devolverDanio())
-		game.addVisual(cursor)
-		//mismos addVisual para el enemigo
-		game.addVisual(enemigo1.devolverStamina())
-		game.addVisual(enemigo1.devolverVida())
-		game.addVisual(enemigo1.devolverDefensa())
-		game.addVisual(enemigo1.devolverDanio())
 		
+		self.mostrarPersonaje(messi)
+		game.addVisual(cursor)
+		self.mostrarPersonaje(enemigoActual)
+		self.movimiento()
+		
+	}
+	method asignacionImagenes(personaje){
+		personaje.asignarImagenVida()
+		personaje.asignarImagenDefensa()
+		personaje.asignarImagenStamina()
+		personaje.asignarImagenDanio()
+	}
+	method mostrarPersonaje(personaje){
+		game.addVisual(personaje.devolverStamina())
+		game.addVisual(personaje.devolverVida())
+		game.addVisual(personaje.devolverDefensa())
+		game.addVisual(personaje.devolverDanio())
 	}
 	
 	method inicializarMano(){
@@ -322,8 +371,8 @@ class Menu{
 		messi.mano().forEach { carta => game.addVisual(carta)}
 }				
 	method iniciarManoP(){
-		enemigo1.asignarMazo()
-		enemigo1.asignarMano()
+		enemigoActual.asignarMazo()
+		enemigoActual.asignarMano()
 	}
 
 //Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
@@ -335,37 +384,42 @@ class Menu{
 		keyboard.enter().onPressDo{self.turnoMessi()}
 		
 	}
+	
+	
+	
 	method turnoMessi(){
 		if (juegaMessi){
 			game.removeVisual(cursor)
 			juegaMessi=false
-			messi.juega(enemigo1, cursor.obtenerIndice())
+			messi.juega(enemigoActual, cursor.obtenerIndice())
 			self.modificarPosicionCartas(messi.mano())
-			game.schedule(3000, { self.turnoEnemigo() })
+			game.schedule(2000, { self.turnoEnemigo() })
 			//self.turnoEnemigo()
 			self.empezarTurno()
 		}
 	}
 	method turnoEnemigo(){
-			enemigo1.juegaEnemigo(messi)	
+			enemigoActual.juega(messi,0)	
 			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
-			//juegaMessi=true
-			//game.addVisual(cursor)
-			//game.say(messi,"Entre en el turno enemigo")
-			
 	}
 	method empezarTurno(){
 		messi.incrementarStamina()
-		enemigo1.incrementarStamina()
+		enemigoActual.incrementarStamina()
 		
 		if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
 			game.clear()
 			game.addVisual(pantallaFinalFrancia)
 		}
 		else {
-			if(enemigo1.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
-			game.clear()
-			game.addVisual(pantallaFinalArgentina)
+			if(enemigoActual.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
+				game.clear()
+				if(fase ==3){
+					game.addVisual(pantallaFinalArgentina)
+				}
+				else{
+					game.schedule(1000,{fase++;self.reasignarEnemigoActual();self.iniciarMenu(); juegaMessi=true})
+				}
+			
 			} 
 			else {
 			 	if(messi.mano().size()<5){
@@ -410,10 +464,23 @@ class Menu{
         }
 	}
 
+	method reasignarEnemigoActual(){
+		enemigoActual = self.devolverEnemigoActual()
+	}
 	
 	method devolverEnemigoActual(){
-		return enemigo1
+		if(fase ==1){
+			return vanGal
 		}
+		if(fase == 2){
+			return modrik
+		}
+		if(fase ==3){
+			return mbapee
+		}
+		else return mbapee //esto deberia devolver una excepcion
+	}
+	
 	method devolverMessi(){
 		return messi
 		}
