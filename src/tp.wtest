@@ -179,7 +179,7 @@ describe "Testeando Menu"{
 	const menuPrueba = new Menu() //ya crea todas las variables el menu
 	
 	const messiMenu = menuPrueba.devolverMessi()
-	const mbapeMenu = menuPrueba.devolverEnemigoActual()
+	const enemigoMenu = menuPrueba.devolverEnemigoActual()
 	
 	
 	
@@ -196,10 +196,10 @@ describe "Testeando Menu"{
 	}
 	test "Al iniciar el menu deberia aparecer las estadisticas del enemigo actual (mbapee)"{
 		menuPrueba.iniciarMenu()
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverVida()))
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverStamina()))
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverDefensa()))
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverDanio()))
+		assert.equals(true, game.hasVisual(enemigoMenu.devolverVida()))
+		assert.equals(true, game.hasVisual(enemigoMenu.devolverStamina()))
+		assert.equals(true, game.hasVisual(enemigoMenu.devolverDefensa()))
+		assert.equals(true, game.hasVisual(enemigoMenu.devolverDanio()))
 	}
 	test "La funcion dondeVoy me deberia devolver 38 , 273.75 , 509.5 , 745.25, 981 respectivo para cada nro del 0 al 4"{
 		
@@ -249,12 +249,12 @@ describe "Testeando Menu"{
 			-	La carta no deberia estar mas en la mano
 			-	La carta deberia pasar a estar ultima en el mazo
 			-	Se efectua el efecto de la carta, le hace 210 de daño a mbapee que queda con 290 de vida"{
-			//danio messi 300 ,defensa mbapee 30, calculo 300*((100-30)/100)
+			//danio messi 10 ,defensa vanGal es 50, calculo 10*((100-50)/100)
 			menuPrueba.iniciarMenu()
-			
+			//100 vida, 50 defensa
 			const c= messiMenu.mano().get(0)
-			messiMenu.juega(mbapeMenu,0)
-			assert.equals(290, mbapeMenu.consultarVida())
+			messiMenu.juega(enemigoMenu,0)
+			assert.equals(95, enemigoMenu.consultarVida())
 			assert.equals(true, messiMenu.mazo().contains(c))
 			assert.equals(c, messiMenu.mazo().last())
 			assert.equals(false, messiMenu.mano().contains(c))
@@ -262,7 +262,7 @@ describe "Testeando Menu"{
 			assert.equals(false, game.hasVisual(c))
 			
 		}
-	
+}	
 	
 	/*
 	 * method movimiento(){
@@ -290,7 +290,7 @@ describe "Testeando Menu"{
 	}
 	 */
 	
-}
+
 	
 
 	

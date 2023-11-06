@@ -289,26 +289,31 @@ class Menu{
 	const daniobasico3 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	const daniobasico4 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	
-	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
+	const botines1 = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
+	const botines2 = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
+	
 	const hormonas1 = new CartaAumento(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
 	const hormonas2 = new CartaAumento(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
 	const hormonas3 = new CartaAumento(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
+	const hormonas4 = new CartaAumento(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
 	
 	const dibu1 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
 	const dibu2 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
 	const dibu3 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
 	const dibu4 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
 	
-	const milaGod = new CartaAumento(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
-	const siestita = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
+	const milaGod1 = new CartaAumento(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
+	const milaGod2 = new CartaAumento(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
+	
+	const siestita1 = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
 	
 	
 	
 	
-	const listaMessi = [balonesDeOro1, hormonas1, daniobasico4, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, daniobasico1, milaGod, dibu1,daniobasico2, hormonas1, daniobasico3]
-	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
-	const listaMo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
-	const listaV = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaMessi = [daniobasico1, hormonas1, balonesDeOro1, botines1, balonesDeOro2, milaGod1, dibu1, balonesDeOro3, siestita1, daniobasico2, milaGod2, dibu2,daniobasico3, hormonas2, daniobasico4]
+	const listaMbapee = [balonesDeOro4,hormonas3, balonesDeOro5,balonesDeOro6,hormonas4]
+	const listaMo = [balonesDeOro4,hormonas3, balonesDeOro5,balonesDeOro6,hormonas4]
+	const listaV = [balonesDeOro4,hormonas3, balonesDeOro5,balonesDeOro6,hormonas4]
 	
 	const vidaP = new Atributo(nro = 300, x= 700,y = 577)
 	const staminaP= new Atributo(nro =2,x= 900, y=600)
@@ -320,7 +325,7 @@ class Menu{
 	const defensaMo = new Atributo(nro = 20, x= 900, y= 500)
 	const danioMo = new Atributo(nro = 20, x=900 , y= 400)	
 	
-	const vidaV = new Atributo(nro = 100, x= 700,y = 577)
+	const vidaV = new Atributo(nro = 100, x= 700,y = 577) 
 	const staminaV= new Atributo(nro =2,x= 900, y=600)
 	const defensaV = new Atributo(nro = 50, x= 900, y= 500)
 	const danioV = new Atributo(nro = 10, x=900 , y= 400)
