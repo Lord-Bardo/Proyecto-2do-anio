@@ -1,4 +1,4 @@
-import wollok.game.*
+    import wollok.game.*
 
 
 object cursor { 
@@ -277,17 +277,17 @@ class Menu{
 	var enemigoActual = vanGal
 	
 	
-	const balonesDeOro1 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro2 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro3 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro4 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro5 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro6 = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro1 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro2 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro3 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro4 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro5 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro6 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	
 	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
-	const hormonas1 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
-	const hormonas2 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
-	const hormonas3 = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
+	const hormonas1 = new CartaAumento(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
+	const hormonas2 = new CartaAumento(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
+	const hormonas3 = new CartaAumento(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
 	
 	const dibu1 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
 	const dibu2 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
@@ -300,31 +300,31 @@ class Menu{
 	
 	
 	
-	const listaMessi = [balonesDeOro1, hormonas1, balonesDeOro2,balonesDeOro3,balonesDeOro4,milaGod,siestita]
+	const listaMessi = [balonesDeOro1, hormonas1, balonesDeOro2, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, balonesDeOro3, milaGod, dibu1,balonesDeOro1, hormonas1, balonesDeOro2]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaMo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaV = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	
-	const vidaP = new Atributo(nro = 500, x= 700,y = 577)
+	const vidaP = new Atributo(nro = 300, x= 700,y = 577)
 	const staminaP= new Atributo(nro =2,x= 900, y=600)
-	const defensaP = new Atributo(nro = 30, x= 900, y= 500)
-	const danioP = new Atributo(nro = 30, x=900 , y= 400)	
+	const defensaP = new Atributo(nro = 50, x= 900, y= 500)
+	const danioP = new Atributo(nro = 20, x=900 , y= 400)	
 	
-	const vidaMo = new Atributo(nro = 500, x= 700,y = 577)
+	const vidaMo = new Atributo(nro = 150, x= 700,y = 577)
 	const staminaMo= new Atributo(nro =2,x= 900, y=600)
-	const defensaMo = new Atributo(nro = 30, x= 900, y= 500)
-	const danioMo = new Atributo(nro = 30, x=900 , y= 400)	
+	const defensaMo = new Atributo(nro = 20, x= 900, y= 500)
+	const danioMo = new Atributo(nro = 20, x=900 , y= 400)	
 	
-	const vidaV = new Atributo(nro = 500, x= 700,y = 577)
+	const vidaV = new Atributo(nro = 100, x= 700,y = 577)
 	const staminaV= new Atributo(nro =2,x= 900, y=600)
-	const defensaV = new Atributo(nro = 30, x= 900, y= 500)
-	const danioV = new Atributo(nro = 30, x=900 , y= 400)
+	const defensaV = new Atributo(nro = 50, x= 900, y= 500)
+	const danioV = new Atributo(nro = 10, x=900 , y= 400)
 		
 	
-	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577)
+	const vidaMessi = new Atributo(nro = 100, x= 325,y = 577)
 	const staminaMessi= new Atributo(nro = 2, x= 270, y=600)
 	const defensaMessi = new Atributo(nro = 10, x= 270, y= 500)
-	const danioMessi = new Atributo(nro = 300, x=270 , y= 400) 
+	const danioMessi = new Atributo(nro = 10, x=270 , y= 400) 
 	
 	
 	const messi = new Messi(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
