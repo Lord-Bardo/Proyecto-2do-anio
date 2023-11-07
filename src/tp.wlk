@@ -57,8 +57,8 @@ object tpIntegrador {
 		game.width(1200)
 		game.height(740)
 		game.boardGround("fondoCancha.png")
-		game.start()
 		menuInicio.iniciarMenu()
+		game.start()
 		//menuInicio.empezarTurno()
 		}
 }
@@ -71,13 +71,9 @@ class Atributo{
 	var nro 
 	const x
 	const y
-	var imagen =""
 	
-	method nuevaRuta(img){
-		imagen =img
-	}
 	method position() = game.at(x,y)
-	method image()= imagen
+	method image()
 	method text() = nro.toString()
 	method textColor() = paleta.blanco()
 	method valor() = nro
@@ -88,32 +84,56 @@ class Atributo{
 		nro = i
 	}
 }
+/*const vidaP = new Vida(nro= 300, x= 700,y = 577)
+	const staminaP= new Stamina(nro =200,x= 900, y=600)
+	const defensaP = new Defensa(nro = 50, x= 900, y= 500)
+	const danioP = new Danio(nro = 20, x=900 , y= 400)	 */
+class Vida inherits Atributo (x=700,y=577){
+	
+	
+	override method image()= "BarritaVida.png"
+}
+
+class Danio inherits Atributo(x=900 , y= 400){
+	
+	
+	override method image()= "ataque.png"
+}
+
+class Defensa inherits Atributo(x= 900, y= 500){
+	
+	override method modificarValor(i){ //deberia llamarse sumar valor
+		self.modificarValor(90.min(nro+i))
+	}
+	override method image()= "defensa.png"
+}
+
+class Stamina inherits Atributo(x= 900, y=600){
+	
+	
+	override method image()= "stamina.png"
+}
 
 class Personaje{
 	const vida 
 	const danio 
 	const defensa
 	const stamina 
-	var x
-	var y
+	var x= 740
+	var y= 420
 	var ruta
 	var listaCartas 
 	var mano = new List()
 	var mazo = new List()
 	
 	
-	method asignarImagenVida(){
-		vida.nuevaRuta("BarritaVida.png")
+	method mostrarAtributos(){
+		game.addVisual(vida)
+		game.addVisual(danio)
+		game.addVisual(defensa)
+		game.addVisual(stamina)
 	}
-	method asignarImagenDefensa(){
-		defensa.nuevaRuta("defensa.png")
-	}
-	method asignarImagenStamina(){
-		stamina.nuevaRuta("stamina.png")
-	}
-	method asignarImagenDanio(){
-		danio.nuevaRuta("ataque.png")
-	}
+	
 	
 	method aumentarAtributo(aumento,atributo){
 		if(atributo== "defensa"){
@@ -129,7 +149,16 @@ class Personaje{
 			stamina.modificarValor(aumento)
 		}
 	}
-	
+	/*
+	 * 	messi.asignarMazo()
+		messi.asignarMano()
+		messi.mano().forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
+		messi.mano().forEach { carta => game.addVisual(carta)}
+	 */
+	method asignarCartas(){
+		self.asignarMazo()
+		self.asignarMano()
+	}
 	method asignarMazo(){
 		mazo = listaCartas.drop(5)
 	}
@@ -215,31 +244,41 @@ class Personaje{
 	
 	}
 }
-/* */
-class Messi inherits Personaje{ //este es messi
-	
+
+class Messi inherits Personaje(vida = new Vida(nro = 100, x= 325,y = 577), defensa = new Defensa(nro = 20, x= 900, y= 500),stamina =new Stamina(nro = 2, x= 270, y=600),danio =new Danio(nro = 10, x=270 , y= 400),ruta = "Messi.png",x=360, y=423){ //este es messi
+
 	override method extra (indice){
 			var c = mano.get(indice)
 			mano.remove(c)
 			game.removeVisual(c)
 		
 		}
-		//	mano.add(mazo.head())	
+	method dondeVoy(indice){
+		return 38 + (indice *235.75)
+	}
+	/*	messi.asignarMazo()
+		messi.asignarMano()
+		messi.mano().forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
+		messi.mano().forEach { carta => game.addVisual(carta)} */
+	override method asignarCartas(){
+		var i=0
+		super()
+		mano.forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
+		mano.forEach { carta => game.addVisual(carta)}
+	}
+	
+	method modificarPosicionCartas(){	
+		var i = 0
+		mano.forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }		
+	}
+	
 }
 
 
 
-// keyboard.i().onPressDo { game.say(pepita, "hola!") }
-// keyboard.rigth().onPressDo {cambiar posicion cursor }
-// keyboard.backspace().onPressDo { jugar la carta con posicion cursor}
-//object barraVida {
-//	const ruta
-//	const x
-//	const y	
-//}
 
 
-class Carta{ //Las cartas no deberian tener posicion, la posicion la voy dando segun la disponibilidad de la mano, y ya son definidas estas posiciones
+class Carta{
 	var costo
 	var x
 	const y =15
@@ -273,7 +312,7 @@ class CartaAumento inherits Carta{
 
 class Menu{
 	var juegaMessi = true
-	var fase = 1
+	var fase = 0
 	var enemigoActual = vanGal
 	
 	
@@ -303,39 +342,16 @@ class Menu{
 	const siestita = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
 	
 	
-	
-	
-	const listaMessi = [balonesDeOro1, hormonas1, daniobasico4, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, daniobasico1, milaGod, dibu1,daniobasico2, hormonas1, daniobasico3]
+	const listaMessi = [balonesDeOro1, hormonas1, daniobasico4, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, daniobasico1, milaGod, dibu2,daniobasico2, hormonas1, daniobasico3]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaMo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaV = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	
-	const vidaP = new Atributo(nro = 300, x= 700,y = 577)
-	const staminaP= new Atributo(nro =2,x= 900, y=600)
-	const defensaP = new Atributo(nro = 50, x= 900, y= 500)
-	const danioP = new Atributo(nro = 20, x=900 , y= 400)	
 	
-	const vidaMo = new Atributo(nro = 150, x= 700,y = 577)
-	const staminaMo= new Atributo(nro =2,x= 900, y=600)
-	const defensaMo = new Atributo(nro = 20, x= 900, y= 500)
-	const danioMo = new Atributo(nro = 20, x=900 , y= 400)	
-	
-	const vidaV = new Atributo(nro = 100, x= 700,y = 577)
-	const staminaV= new Atributo(nro =2,x= 900, y=600)
-	const defensaV = new Atributo(nro = 50, x= 900, y= 500)
-	const danioV = new Atributo(nro = 10, x=900 , y= 400)
-		
-	
-	const vidaMessi = new Atributo(nro = 100, x= 325,y = 577)
-	const staminaMessi= new Atributo(nro = 2, x= 270, y=600)
-	const defensaMessi = new Atributo(nro = 10, x= 270, y= 500)
-	const danioMessi = new Atributo(nro = 10, x=270 , y= 400) 
-	
-	
-	const messi = new Messi(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
-	const mbapee = new Personaje(vida = vidaP, danio = danioP, defensa = defensaP, ruta="Mbappe.png",x=740,y=420, listaCartas = listaMbapee,stamina=staminaP)
-	const modrik = new Personaje (vida = vidaMo, danio = danioMo, defensa = defensaMo, ruta ="modrik.png",x=740,y=420,listaCartas= listaMo,stamina=staminaMo )
-	const vanGal =  new Personaje (vida = vidaV, danio = danioV, defensa = defensaV, ruta ="vanGal.png",x=740,y=420,listaCartas= listaV,stamina=staminaV )
+	const messi = new Messi(listaCartas= listaMessi)
+	const mbapee = new Personaje(vida = new Vida(nro= 300), danio = new Danio(nro = 20), defensa = new Defensa(nro = 50), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =200))
+	const modrik = new Personaje (vida = new Vida(nro= 300), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =200) )
+	const vanGal =  new Personaje (vida =  new Vida(nro= 300), danio = new Danio(nro = 10), defensa = new Defensa(nro = 50), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =200) )
 	
 	method iniciarMenu(){
 		self.reasignarEnemigoActual()
@@ -343,45 +359,17 @@ class Menu{
 		game.addVisual(messi)
 		game.addVisual(enemigoActual)
 		
-		self.asignacionImagenes(messi)
-		self.asignacionImagenes(enemigoActual)
+		messi.asignarCartas()
+		enemigoActual.asignarCartas()
 		
-		self.inicializarMano()
-		self.iniciarManoP()
+		messi.mostrarAtributos()
+		enemigoActual.mostrarAtributos()
 		
-		self.mostrarPersonaje(messi)
 		game.addVisual(cursor)
-		self.mostrarPersonaje(enemigoActual)
 		self.movimiento()
 		
 	}
-	method asignacionImagenes(personaje){
-		personaje.asignarImagenVida()
-		personaje.asignarImagenDefensa()
-		personaje.asignarImagenStamina()
-		personaje.asignarImagenDanio()
-	}
-	method mostrarPersonaje(personaje){
-		game.addVisual(personaje.devolverStamina())
-		game.addVisual(personaje.devolverVida())
-		game.addVisual(personaje.devolverDefensa())
-		game.addVisual(personaje.devolverDanio())
-	}
 	
-	method inicializarMano(){
-		var i=0
-		messi.asignarMazo()
-		messi.asignarMano()
-		messi.mano().forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }
-		messi.mano().forEach { carta => game.addVisual(carta)}
-}				
-	method iniciarManoP(){
-		enemigoActual.asignarMazo()
-		enemigoActual.asignarMano()
-	}
-
-//Posiciones Cartas: 38 , 273.75 , 509.5 , 745.25, 981 
-
 	
 	method movimiento(){
 		keyboard.right().onPressDo{cursor.moverDerecha()}
@@ -397,16 +385,18 @@ class Menu{
 			game.removeVisual(cursor)
 			juegaMessi=false
 			messi.juega(enemigoActual, cursor.obtenerIndice())
-			self.modificarPosicionCartas(messi.mano())
+			messi.modificarPosicionCartas()
 			game.schedule(2000, { self.turnoEnemigo() })
 			//self.turnoEnemigo()
 			self.empezarTurno()
 		}
 	}
+	
 	method turnoEnemigo(){
 			enemigoActual.juega(messi,0)	
 			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
 	}
+	
 	method empezarTurno(){
 		messi.incrementarStamina()
 		enemigoActual.incrementarStamina()
@@ -430,60 +420,21 @@ class Menu{
 			 	if(messi.mano().size()<5){
 			 		messi.agregarCarta()				 
 				}
-					//self.modificarPosicionCartas(messi.mano())
-					 //caso en el que no murio nadie
 			}
 		} 
 	}	
 	
 	
-	method modificarPosicionCartas(mano){	
-		
-		var i = 0
-		mano.forEach{carta => carta.cambiarX(self.dondeVoy(i)); i++ }		
 	
-		//mano.forEach { carta => game.addVisual(carta)}
-	}
-	
-	method dondeVoy(indice){
-		if(indice == 0){
-            return (38)
-        }
-        else{
-            if(indice == 1){
-                return (273.75)
-            }
-            else{
-                if(indice == 2){
-                    return (509.5)
-                }
-                else{
-                    if(indice == 3){
-                        return (745.25)
-                    }
-                    else{
-                        return (981)
-                    }
-                }
-            }
-        }
-	}
 
 	method reasignarEnemigoActual(){
 		enemigoActual = self.devolverEnemigoActual()
 	}
 	
+	
 	method devolverEnemigoActual(){
-		if(fase ==1){
-			return vanGal
-		}
-		if(fase == 2){
-			return modrik
-		}
-		if(fase ==3){
-			return mbapee
-		}
-		else return mbapee //esto deberia devolver una excepcion
+		const enemigos =[vanGal,modrik,mbapee]
+		return enemigos.get(fase)
 	}
 	
 	method devolverMessi(){

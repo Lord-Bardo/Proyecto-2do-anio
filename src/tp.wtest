@@ -25,16 +25,11 @@ describe "Testeando el cursor"{
 
 describe "Testeando Personaje"{
 	
-	const vidaEnemigo = new Atributo(nro = 200, x= 700,y = 577, imagen ="BarritaVida.png")
-	const staminaEnemigo= new Atributo(nro =1,x= 900, y=600, imagen="stamina.png")
-	const defensaEnemigo = new Atributo(nro = 20, x= 900, y= 500, imagen ="defensa.png")
-	const danioEnemigo = new Atributo(nro = 30, x=900 , y= 400, imagen ="ataque.png")	
+	const vidaEnemigo = new Vida(nro = 200)
+	const staminaEnemigo= new Stamina(nro =1)
+	const defensaEnemigo = new Defensa(nro = 20)
+	const danioEnemigo = new Danio(nro = 30)	
 	
-	
-	const vidaMessi = new Atributo(nro = 500, x= 325,y = 577, imagen ="BarritaVida.png")
-	const staminaMessi= new Atributo(nro = 2, x= 270, y=600, imagen= "stamina.png")
-	const defensaMessi = new Atributo(nro = 30, x= 270, y= 500, imagen ="defensa.png")
-	const danioMessi = new Atributo(nro = 30, x=270 , y= 400, imagen ="ataque.png") 
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
@@ -48,25 +43,25 @@ describe "Testeando Personaje"{
 	const listaMessi = [balonesDeOro, botines,hormonas, dibu, milaGod,siestita]
 	const listaEnemigo1 = [botines]//esto va a ser un problema, o no?
 	
-	const messi = new Personaje(vida=vidaMessi, danio = danioMessi, defensa= defensaMessi, ruta = "Messi.png",x=360, y=423, listaCartas= listaMessi,stamina=staminaMessi)
-	const enemigo1 = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaEnemigo, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo1,stamina=staminaEnemigo)
+	const messi = new Messi(listaCartas= listaMessi)
+	const enemigo1 = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaEnemigo, ruta="Mbappe.png",listaCartas = listaEnemigo1,stamina=staminaEnemigo)
 	
-	const staminaAlta =new Atributo(nro =4,x= 900, y=600, imagen="stamina.png")
-	const defensaNula = new Atributo(nro= 0,x= 900, y= 500, imagen ="defensa.png" )
-	const enemigoConDefensaNula = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaNula, ruta="Mbappe.png",x=740,y=420, listaCartas = listaEnemigo1,stamina=staminaEnemigo)
+	const staminaAlta =new Stamina(nro =4)
+	const defensaNula = new Defensa(nro= 0)
+	const enemigoConDefensaNula = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaNula, ruta="Mbappe.png", listaCartas = listaEnemigo1,stamina=staminaEnemigo)
 	
 
-	test "Si messi tiene 500 de vida la consulta de su vida debe dar 500" {
+	test "Si messi tiene 100 de vida la consulta de su vida debe dar 500" {
 
-		assert.equals(500, messi.consultarVida())
+		assert.equals(100, messi.consultarVida())
 	}
 	
 	test "El enemigo1 tiene 200 de vida, la consulta deberia devolver 200"{
 		assert.equals(200, enemigo1.consultarVida())
 	}
 	
-	test "El danio de messi deberia ser de 30"{
-		assert.equals(30, messi.consultarDanio())
+	test "El danio de messi deberia ser de 10"{
+		assert.equals(10, messi.consultarDanio())
 	}
 	test "La defensa del enemigo deberia ser 20"{
 		assert.equals(20, enemigo1.consultarDefensa())
@@ -77,10 +72,10 @@ describe "Testeando Personaje"{
 	}
 	
 	
-	test "Si messi recibeDanio(20) deberia recibir 14 de danio y quedarse con 486 de vida" {
+	test "Si messi recibeDanio(20) deberia recibir 16 de danio y quedarse con 84 de vida" {
 		//(dmg* (100- defensa.valor())/100)
 		messi.recibeDanio(20)
-		assert.equals(486, messi.consultarVida())
+		assert.equals(84, messi.consultarVida())
 		
 	}
 	test "Si el enemigo1 tiene 20 de defensa y recibeDanio(20) deberia recibir 16 de danio y quedarse con 184 de vida"{
@@ -95,28 +90,28 @@ describe "Testeando Personaje"{
 	}
 	test "Si messi recibeDanio(0) no deberia perder vida, tendria que ser 500"{
 		messi.recibeDanio(0)
-		assert.equals(500, messi.consultarVida())
+		assert.equals(100, messi.consultarVida())
 	}
 	test "Si el enmigo1 recibeDanio(0) no deberia perder vida, tendria que ser 200"{
 		enemigo1.recibeDanio(0)
 		assert.equals(200, enemigo1.consultarVida())
 	}
 	
-	test "Si messi ataca, el enemigo sin defensa, este recibe 30 de danio y quedar con 170 de vida" {
+	test "Si messi ataca, el enemigo sin defensa, este recibe 10 de danio y quedar con 170 de vida" {
 	
 		messi.atacar(enemigoConDefensaNula)
-		assert.equals(170, enemigoConDefensaNula.consultarVida())
+		assert.equals(190, enemigoConDefensaNula.consultarVida())
 	
 	}
-	test "Si messi ataca al enemigo1 teniendo 30 de danio, que tiene 20 de defensa, este enemigo deberia recibir 24 de danio y quedarse con 176 de vida"{
+	test "Si messi ataca al enemigo1 teniendo 10 de danio, que tiene 20 de defensa, este enemigo deberia recibir 8 de danio y quedarse con 192 de vida"{
 		////(dmg* (100- defensa.valor())/100)
 		messi.atacar(enemigo1)
-		assert.equals(176, enemigo1.consultarVida())
+		assert.equals(192, enemigo1.consultarVida())
 	}
-	test "Si el enemigo1 tiene 30 de danio y ataca a messi que tiene 30 de defensa, este ultimo deberia quedarse con 479 de vida (recibio 21 de danio)"{
+	test "Si el enemigo1 tiene 30 de danio y ataca a messi que tiene 20 de defensa, este ultimo deberia quedarse con 76 de vida (recibio 24 de danio)"{
 		////(dmg* (100- defensa.valor())/100)
 		enemigo1.atacar(messi)
-		assert.equals(479, messi.consultarVida())
+		assert.equals(76, messi.consultarVida())
 	}
 	test "Si el enemigoConDefensaNula recibe 200 de danio, deberia estar muerto"{
 		enemigoConDefensaNula.recibeDanio(200)
@@ -203,11 +198,11 @@ describe "Testeando Menu"{
 	}
 	test "La funcion dondeVoy me deberia devolver 38 , 273.75 , 509.5 , 745.25, 981 respectivo para cada nro del 0 al 4"{
 		
-		assert.equals(38, menuPrueba.dondeVoy(0))
-		assert.equals(273.75, menuPrueba.dondeVoy(1))
-		assert.equals(509.5, menuPrueba.dondeVoy(2))
-		assert.equals(745.25, menuPrueba.dondeVoy(3))
-		assert.equals(981, menuPrueba.dondeVoy(4))
+		assert.equals(38, messiMenu.dondeVoy(0))
+		assert.equals(273.75, messiMenu.dondeVoy(1))
+		assert.equals(509.5, messiMenu.dondeVoy(2))
+		assert.equals(745.25, messiMenu.dondeVoy(3))
+		assert.equals(981, messiMenu.dondeVoy(4))
 		
 	}
 	test "Al iniciar el menu, deberian mostrarse en pantalla todas las cartas de la mano de messi"{
