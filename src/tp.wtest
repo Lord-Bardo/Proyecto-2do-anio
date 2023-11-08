@@ -32,11 +32,11 @@ describe "Testeando Personaje"{
 	
 	
 	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
-	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
-	const hormonas = new CartaAumento(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
-	const dibu = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
-	const milaGod = new CartaAumento(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
-	const siestita = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
+	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
+	const hormonas = new CartaAumentoDanio(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const dibu = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
+	const milaGod = new CartaAumentoVida(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50)
+	const siestita = new CartaAumentoStamina(costo =1 , ruta ="Siestita.png",x=38, aumento =3)
 	
 	
 	

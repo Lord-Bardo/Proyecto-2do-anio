@@ -32,22 +32,15 @@ object cursor {
 		return indice
 	}
 }
-object pantallaFinalArgentina{
-	const ruta="campeones.png"
+class PantallaFinal{
+	const ruta
 	method position() = game.at(0,0)
 	
 	method image(){
 		return ruta	
 }
 }
-object pantallaFinalFrancia{
-	const ruta="fotoGanaFrancia.png"
-	method position() = game.at(0,0)
-	
-	method image(){
-		return ruta	
-}
-}
+
 
 object tpIntegrador {
 	method jugar() {
@@ -79,9 +72,6 @@ class Atributo{
 	method valor() = nro
 	method modificarValor(i){ //deberia llamarse sumar valor
 		nro +=i
-	}
-	method cambiarValorA(i){
-		nro = i
 	}
 }
 /*const vidaP = new Vida(nro= 300, x= 700,y = 577)
@@ -134,21 +124,6 @@ class Personaje{
 		game.addVisual(stamina)
 	}
 	
-	
-	method aumentarAtributo(aumento,atributo){
-		if(atributo== "defensa"){
-			defensa.cambiarValorA(90.min(self.consultarDefensa()+aumento))
-		}
-		if(atributo =="danio"){
-			danio.modificarValor(aumento)
-		}
-		if(atributo =="vida"){
-			vida.modificarValor(aumento)
-		}
-		if(atributo =="stamina"){
-			stamina.modificarValor(aumento)
-		}
-	}
 	/*
 	 * 	messi.asignarMazo()
 		messi.asignarMano()
@@ -245,7 +220,7 @@ class Personaje{
 	}
 }
 
-class Messi inherits Personaje(vida = new Vida(nro = 100, x= 325,y = 577), defensa = new Defensa(nro = 20, x= 900, y= 500),stamina =new Stamina(nro = 2, x= 270, y=600),danio =new Danio(nro = 10, x=270 , y= 400),ruta = "Messi.png",x=360, y=423){ //este es messi
+class Messi inherits Personaje(vida = new Vida(nro = 100, x= 325,y = 577), defensa = new Defensa(nro = 20, x= 270, y= 500),stamina =new Stamina(nro = 2, x= 270, y=600),danio =new Danio(nro = 10, x=270 , y= 400),ruta = "Messi.png",x=360, y=423){ //este es messi
 
 	override method extra (indice){
 			var c = mano.get(indice)
@@ -294,6 +269,7 @@ class Carta{
 	method position() = game.at(x,y)
 
 	
+	
 }
 	
 
@@ -304,17 +280,48 @@ class CartaAtaque inherits Carta{
 }
 class CartaAumento inherits Carta{
 	var aumento
-	var atributo
+	
+	method queAtributoSoy(personaje)
+	
 	method hacerEfecto(personaje, atacado){
-		personaje.aumentarAtributo(aumento,atributo)
+		self.queAtributoSoy(personaje).modificarValor(aumento)
 	}	
 }
+
+class CartaAumentoDefensa inherits CartaAumento {
+	
+	override method queAtributoSoy(personaje){
+		return personaje.devolverDefensa()
+	}
+}
+class CartaAumentoVida inherits CartaAumento {
+	
+	override method queAtributoSoy(personaje){
+		return personaje.devolverVida()
+	}
+}
+class CartaAumentoDanio inherits CartaAumento {
+	
+	override method queAtributoSoy(personaje){
+		return personaje.devolverDanio()
+	}
+}
+class CartaAumentoStamina inherits CartaAumento {
+	
+	override method queAtributoSoy(personaje){
+		return personaje.devolverStamina()
+	}
+}
+
 
 class Menu{
 	var juegaMessi = true
 	var fase = 0
 	var enemigoActual = vanGal
-	
+	const ganoArgentina = new PantallaFinal(ruta="campeones.png")
+	const ganoFrancia = new PantallaFinal(ruta="fotoGanaFrancia.png")
+	const ganoCroacia = new PantallaFinal(ruta="fotoGanaCroacia.png")
+	const ganoHolanda = new PantallaFinal(ruta="fotoGanaHolanda.png")
 	
 	const balonesDeOro1 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	const balonesDeOro2 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
@@ -328,18 +335,18 @@ class Menu{
 	const daniobasico3 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	const daniobasico4 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	
-	const botines = new CartaAumento(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5, atributo ="danio")
-	const hormonas1 = new CartaAumento(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
-	const hormonas2 = new CartaAumento(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
-	const hormonas3 = new CartaAumento(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10,atributo= "danio")
+	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
+	const hormonas1 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const hormonas2 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
+	const hormonas3 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
 	
-	const dibu1 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
-	const dibu2 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
-	const dibu3 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
-	const dibu4 = new CartaAumento(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10,atributo= "defensa")
+	const dibu1 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
+	const dibu2 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
+	const dibu3 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
+	const dibu4 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	
-	const milaGod = new CartaAumento(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50,atributo= "vida")
-	const siestita = new CartaAumento(costo =1 , ruta ="Siestita.png",x=38, aumento =3, atributo ="stamina")
+	const milaGod = new CartaAumentoVida(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50)
+	const siestita = new CartaAumentoStamina(costo =1 , ruta ="Siestita.png",x=38, aumento =3)
 	
 	
 	const listaMessi = [balonesDeOro1, hormonas1, daniobasico4, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, daniobasico1, milaGod, dibu2,daniobasico2, hormonas1, daniobasico3]
@@ -349,9 +356,9 @@ class Menu{
 	
 	
 	const messi = new Messi(listaCartas= listaMessi)
-	const mbapee = new Personaje(vida = new Vida(nro= 300), danio = new Danio(nro = 20), defensa = new Defensa(nro = 50), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =200))
-	const modrik = new Personaje (vida = new Vida(nro= 300), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =200) )
-	const vanGal =  new Personaje (vida =  new Vida(nro= 300), danio = new Danio(nro = 10), defensa = new Defensa(nro = 50), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =200) )
+	const mbapee = new Personaje(vida = new Vida(nro= 3), danio = new Danio(nro = 20), defensa = new Defensa(nro = 50), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =200))
+	const modrik = new Personaje (vida = new Vida(nro= 3), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =200) )
+	const vanGal =  new Personaje (vida =  new Vida(nro= 3), danio = new Danio(nro = 10), defensa = new Defensa(nro = 50), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =200) )
 	
 	method iniciarMenu(){
 		self.reasignarEnemigoActual()
@@ -403,13 +410,13 @@ class Menu{
 		
 		if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
 			game.clear()
-			game.addVisual(pantallaFinalFrancia)
+			game.addVisual(self.devolverPantallaFinal())
 		}
 		else {
 			if(enemigoActual.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
 				game.clear()
-				if(fase ==3){
-					game.addVisual(pantallaFinalArgentina)
+				if(fase ==2){
+					game.addVisual(ganoArgentina)
 				}
 				else{
 					game.schedule(1000,{fase++;self.reasignarEnemigoActual();self.iniciarMenu(); juegaMessi=true})
@@ -431,7 +438,10 @@ class Menu{
 		enemigoActual = self.devolverEnemigoActual()
 	}
 	
-	
+	method devolverPantallaFinal(){
+		const pantallas=[ganoHolanda,ganoCroacia,ganoFrancia]
+		return pantallas.get(fase)
+	}
 	method devolverEnemigoActual(){
 		const enemigos =[vanGal,modrik,mbapee]
 		return enemigos.get(fase)
