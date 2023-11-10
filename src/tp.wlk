@@ -345,8 +345,8 @@ class Menu{
 	const dibu3 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu4 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	
-	const milaGod = new CartaAumentoVida(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50)
-	const siestita = new CartaAumentoStamina(costo =1 , ruta ="Siestita.png",x=38, aumento =3)
+	const milaGod = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
+	const siestita = new CartaAumentoStamina(costo =3 , ruta ="Siestita.png",x=38, aumento =50)
 	
 	
 	const listaMessi = [balonesDeOro1, hormonas1, daniobasico4, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, daniobasico1, milaGod, dibu2,daniobasico2, hormonas1, daniobasico3]
