@@ -171,7 +171,7 @@ class Personaje{
 	
 	method recibeDanio(dmg){
 	
-		vida.modificarValor(-dmg* (100- defensa.valor())/100)
+		vida.modificarValor(-dmg* ((100- defensa.valor())/100))
 	}
 	method aumentarDefensa(aumento){  //el aumento es un nro entre 0 y 1 
 		defensa.modificarValor(+aumento)
@@ -210,7 +210,7 @@ class Personaje{
 		var c = mano.get(indice)
 		if (self.sePuedeJugar(c)){
 			mazo.add(c)
-			c.hacerEfecto(self,enemigo)
+			c.hacerEneVeces(self,enemigo)
 			self.extra(indice)
 			self.restarStamina(c.consultarCosto())
 		
@@ -267,24 +267,38 @@ class Carta{
 	
 	method image() = ruta
 	method position() = game.at(x,y)
-
+	method hacerEfecto(personaje, atacado)
+	method hacerEneVeces(atacante,atacado)
 	
 	
 }
 	
 
 class CartaAtaque inherits Carta{
-	method hacerEfecto(atacante, atacado){
+	const multiplicador = 1 
+	var i = multiplicador
+	override method hacerEfecto(atacante, atacado){
 		atacante.atacar(atacado)
 	}
+	override method hacerEneVeces(atacante,atacado){
+        if (i>0){
+            i--
+            self.hacerEfecto(atacante,atacado)
+			self.hacerEneVeces(atacante,atacado)       
+        } else i=multiplicador
+    }
 }
+
 class CartaAumento inherits Carta{
 	var aumento
 	
 	method queAtributoSoy(personaje)
 	
-	method hacerEfecto(personaje, atacado){
+	override method hacerEfecto(personaje, atacado){
 		self.queAtributoSoy(personaje).modificarValor(aumento)
+	}
+	override method hacerEneVeces(atacante,atacado){
+		self.hacerEfecto(atacante,atacado)
 	}	
 }
 
@@ -323,17 +337,17 @@ class Menu{
 	const ganoCroacia = new PantallaFinal(ruta="fotoGanaCroacia.png")
 	const ganoHolanda = new PantallaFinal(ruta="fotoGanaHolanda.png")
 	
-	const balonesDeOro1 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro2 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro3 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro4 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro5 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro1 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro2 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro3 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro4 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro5 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	const balonesDeOro6 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	
-	const daniobasico1 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const daniobasico2 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const daniobasico3 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const daniobasico4 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico1 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico2 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico3 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico4 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	
 	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
 	const hormonas1 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
@@ -349,16 +363,16 @@ class Menu{
 	const siestita = new CartaAumentoStamina(costo =3 , ruta ="Siestita.png",x=38, aumento =50)
 	
 	
-	const listaMessi = [balonesDeOro1, hormonas1, daniobasico4, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, daniobasico1, milaGod, dibu2,daniobasico2, hormonas1, daniobasico3]
+	const listaMessi = [danioBasico4, hormonas1, balonesDeOro1, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, danioBasico1, milaGod, dibu2,danioBasico2, hormonas1, danioBasico3]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaMo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaV = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	
 	
 	const messi = new Messi(listaCartas= listaMessi)
-	const mbapee = new Personaje(vida = new Vida(nro= 3), danio = new Danio(nro = 20), defensa = new Defensa(nro = 50), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =200))
-	const modrik = new Personaje (vida = new Vida(nro= 3), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =200) )
-	const vanGal =  new Personaje (vida =  new Vida(nro= 3), danio = new Danio(nro = 10), defensa = new Defensa(nro = 50), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =200) )
+	const mbapee = new Personaje(vida = new Vida(nro= 150), danio = new Danio(nro = 20), defensa = new Defensa(nro = 40), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =200))
+	const modrik = new Personaje (vida = new Vida(nro= 130), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =200) )
+	const vanGal =  new Personaje (vida =  new Vida(nro= 110), danio = new Danio(nro = 10), defensa = new Defensa(nro = 40), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =200) )
 	
 	method iniciarMenu(){
 		self.reasignarEnemigoActual()

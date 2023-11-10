@@ -25,22 +25,23 @@ describe "Testeando el cursor"{
 
 describe "Testeando Personaje"{
 	
-	const vidaEnemigo = new Vida(nro = 200)
+	const vidaEnemigo = new Vida(nro = 150)
 	const staminaEnemigo= new Stamina(nro =1)
 	const defensaEnemigo = new Defensa(nro = 20)
 	const danioEnemigo = new Danio(nro = 30)	
 	
 	
-	const balonesDeOro = new CartaAtaque(costo = 1 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro = new CartaAtaque(multiplicador=2, costo = 1 , ruta = "BalonesDeOro.png", x= 441)
 	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
 	const hormonas = new CartaAumentoDanio(costo = 1, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const dibu = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const milaGod = new CartaAumentoVida(costo = 3, ruta = "MilaGod.png", x= 38,aumento= 50)
 	const siestita = new CartaAumentoStamina(costo =1 , ruta ="Siestita.png",x=38, aumento =3)
+	const danioBasico1 = new CartaAtaque(costo = 1 , ruta = "dañobasico.png", x= 441)
 	
 	
 	
-	const listaMessi = [balonesDeOro, botines,hormonas, dibu, milaGod,siestita]
+	const listaMessi = [balonesDeOro, danioBasico1,botines,hormonas, dibu, milaGod,siestita]
 	const listaEnemigo1 = [botines]//esto va a ser un problema, o no?
 	
 	const messi = new Messi(listaCartas= listaMessi)
@@ -48,16 +49,17 @@ describe "Testeando Personaje"{
 	
 	const staminaAlta =new Stamina(nro =4)
 	const defensaNula = new Defensa(nro= 0)
+	const defensaCuarenta = new Defensa (nro = 40)
 	const enemigoConDefensaNula = new Personaje(vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaNula, ruta="Mbappe.png", listaCartas = listaEnemigo1,stamina=staminaEnemigo)
-	
+	const enemigoConDefensaCuarenta = new Personaje (vida = vidaEnemigo, danio = danioEnemigo, defensa = defensaCuarenta, ruta="Mbappe.png", listaCartas = listaEnemigo1,stamina=staminaEnemigo)
 
 	test "Si messi tiene 100 de vida la consulta de su vida debe dar 500" {
 
 		assert.equals(100, messi.consultarVida())
 	}
 	
-	test "El enemigo1 tiene 200 de vida, la consulta deberia devolver 200"{
-		assert.equals(200, enemigo1.consultarVida())
+	test "El enemigo1 tiene 150 de vida, la consulta deberia devolver 200"{
+		assert.equals(150, enemigo1.consultarVida())
 	}
 	
 	test "El danio de messi deberia ser de 10"{
@@ -78,15 +80,15 @@ describe "Testeando Personaje"{
 		assert.equals(84, messi.consultarVida())
 		
 	}
-	test "Si el enemigo1 tiene 20 de defensa y recibeDanio(20) deberia recibir 16 de danio y quedarse con 184 de vida"{
+	test "Si el enemigo1 tiene 20 de defensa y recibeDanio(20) deberia recibir 16 de danio y quedarse con 134 de vida"{
 		////(dmg* (100- defensa.valor())/100)
 		enemigo1.recibeDanio(20)
-		assert.equals(184,enemigo1.consultarVida())
+		assert.equals(134,enemigo1.consultarVida())
 		
 	}
 	test "Si el enemigoConDefensaNula recibeDanio(20) deberia recibir 20 de danio y quedarse con 180 de vida"{
 		enemigoConDefensaNula.recibeDanio(20)
-		assert.equals(180,enemigoConDefensaNula.consultarVida())
+		assert.equals(130,enemigoConDefensaNula.consultarVida())
 	}
 	test "Si messi recibeDanio(0) no deberia perder vida, tendria que ser 500"{
 		messi.recibeDanio(0)
@@ -94,19 +96,19 @@ describe "Testeando Personaje"{
 	}
 	test "Si el enmigo1 recibeDanio(0) no deberia perder vida, tendria que ser 200"{
 		enemigo1.recibeDanio(0)
-		assert.equals(200, enemigo1.consultarVida())
+		assert.equals(150, enemigo1.consultarVida())
 	}
 	
-	test "Si messi ataca, el enemigo sin defensa, este recibe 10 de danio y quedar con 170 de vida" {
+	test "Si messi ataca, el enemigo sin defensa, este recibe 10 de danio y quedar con 140 de vida" {
 	
 		messi.atacar(enemigoConDefensaNula)
-		assert.equals(190, enemigoConDefensaNula.consultarVida())
+		assert.equals(140, enemigoConDefensaNula.consultarVida())
 	
 	}
-	test "Si messi ataca al enemigo1 teniendo 10 de danio, que tiene 20 de defensa, este enemigo deberia recibir 8 de danio y quedarse con 192 de vida"{
+	test "Si messi ataca al enemigo1 teniendo 10 de danio, que tiene 20 de defensa, este enemigo deberia recibir 8 de danio y quedarse con 142 de vida"{
 		////(dmg* (100- defensa.valor())/100)
 		messi.atacar(enemigo1)
-		assert.equals(192, enemigo1.consultarVida())
+		assert.equals(142, enemigo1.consultarVida())
 	}
 	test "Si el enemigo1 tiene 30 de danio y ataca a messi que tiene 20 de defensa, este ultimo deberia quedarse con 76 de vida (recibio 24 de danio)"{
 		////(dmg* (100- defensa.valor())/100)
@@ -116,6 +118,24 @@ describe "Testeando Personaje"{
 	test "Si el enemigoConDefensaNula recibe 200 de danio, deberia estar muerto"{
 		enemigoConDefensaNula.recibeDanio(200)
 		assert.equals(true, enemigoConDefensaNula.estaMuerto())
+	}
+	test "probando"{
+	messi.asignarCartas()
+	messi.juega(enemigoConDefensaCuarenta,1)
+	assert.equals(144,enemigoConDefensaCuarenta.consultarVida())
+	}
+	
+	test "Si messi juega la carta balonDeOro, atacara dos veces:
+	se probara con un enemigo sin defensa y 200 de vida, debe quedar con 180 de vida; con un enemigo con 40 de defensa y 200 de vida, debe
+	quedar con 188 de vida"{
+	messi.asignarCartas()
+	messi.juega(enemigoConDefensaNula,0)
+	assert.equals(130,enemigoConDefensaNula.consultarVida())
+	assert.equals(40,enemigoConDefensaCuarenta.consultarDefensa())	
+	messi.juega(enemigoConDefensaCuarenta,0)
+	assert.equals(138,enemigoConDefensaCuarenta.consultarVida())
+	assert.equals(40,enemigoConDefensaCuarenta.consultarDefensa())
+		
 	}
 	/*
 	 * tenes 5 de vida
@@ -133,7 +153,7 @@ si preguntas la vida, sigue diciendo 0
 	
 	test "Se agarra las primeras 5 cartas de la lista de cartas de  messi"{
 	messi.asignarMano()
-	assert.equals([balonesDeOro, botines,hormonas, dibu, milaGod],messi.mano())
+	assert.equals([balonesDeOro, danioBasico1,botines,hormonas, dibu],messi.mano())
 	}
 	
 	test "Si incremento la stamina de messi que tiene 2, deberia quedar en 3"{
@@ -174,7 +194,7 @@ describe "Testeando Menu"{
 	const menuPrueba = new Menu() //ya crea todas las variables el menu
 	
 	const messiMenu = menuPrueba.devolverMessi()
-	const mbapeMenu = menuPrueba.devolverEnemigoActual()
+	const vanGalMenu = menuPrueba.devolverEnemigoActual()
 	
 	
 	
@@ -189,12 +209,12 @@ describe "Testeando Menu"{
 		menuPrueba.iniciarMenu()
 		assert.equals(true, game.hasVisual(cursor))
 	}
-	test "Al iniciar el menu deberia aparecer las estadisticas del enemigo actual (mbapee)"{
+	test "Al iniciar el menu deberia aparecer las estadisticas del enemigo actual (Van Gaal)"{
 		menuPrueba.iniciarMenu()
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverVida()))
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverStamina()))
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverDefensa()))
-		assert.equals(true, game.hasVisual(mbapeMenu.devolverDanio()))
+		assert.equals(true, game.hasVisual(vanGalMenu.devolverVida()))
+		assert.equals(true, game.hasVisual(vanGalMenu.devolverStamina()))
+		assert.equals(true, game.hasVisual(vanGalMenu.devolverDefensa()))
+		assert.equals(true, game.hasVisual(vanGalMenu.devolverDanio()))
 	}
 	test "La funcion dondeVoy me deberia devolver 38 , 273.75 , 509.5 , 745.25, 981 respectivo para cada nro del 0 al 4"{
 		
@@ -213,77 +233,28 @@ describe "Testeando Menu"{
 		assert.equals(true, game.hasVisual(messiMenu.mano().get(3)))
 		assert.equals(true, game.hasVisual(messiMenu.mano().get(4)))
 	}
-	test "Al iniciar el menu, la 1ra carta de la mano deberia estar en (38,15)"{ //anda raro esto, sera por el tamaño de las cartas que hay que cambiar ?
-		const posicion = game.at(38,15) 
-		menuPrueba.iniciarMenu()
-		assert.equals(messiMenu.mano().get(0), game.getObjectsIn(posicion).get(0))
-	}
-	test "Curiosidad: Pruebo a ver si alguna de las cartas en pantalla es la que pienso"{ //que raro esto che, consultar
-		const posicion = game.at(38,15) 
-		menuPrueba.iniciarMenu()
-		//assert.equals(messiMenu.mano().get(0), game.getObjectsIn(posicion).get(0))
-		assert.equals(true, messiMenu.mano().any({x =>x == game.getObjectsIn(posicion)}))
-	}
-		/*
-	 * method juega (enemigo, indice){
-		var c = mano.get(indice) l
-		if (self.sePuedeJugar(c)){l
-			c.hacerEfecto(self,enemigo)
-			mazo.add(c)
-			mano.remove(c)
-			game.removeVisual(c)
-			self.restarStamina(c.consultarCosto())
-		
-		} else { game.say(c,"No me podes jugar te falta mana")
-		}
-	 */
+
 	
 	test "Si el usuario selecciona la 1ra carta, se ejecuta messi.jugar(enemigo1,0) y deberian pasar las siguientes cosas:
 			-	La stamina de messi queda en 1 
 			-	La carta no deberia estar mas en pantalla
 			-	La carta no deberia estar mas en la mano
 			-	La carta deberia pasar a estar ultima en el mazo
-			-	Se efectua el efecto de la carta, le hace 210 de daño a mbapee que queda con 290 de vida"{
-			//danio messi 300 ,defensa mbapee 30, calculo 300*((100-30)/100)
+			-	Se efectua el efecto de la carta, le hace 6 de daño a Van Gaal que queda con 104 de vida"{
+			//danio messi 10 ,defensa mbapee 20, calculo 10*((100-20)/100)
 			menuPrueba.iniciarMenu()
-			
+			assert.equals(10,messiMenu.consultarDanio())
 			const c= messiMenu.mano().get(0)
-			messiMenu.juega(mbapeMenu,0)
-			assert.equals(290, mbapeMenu.consultarVida())
+			messiMenu.juega(vanGalMenu,0)
 			assert.equals(true, messiMenu.mazo().contains(c))
 			assert.equals(c, messiMenu.mazo().last())
 			assert.equals(false, messiMenu.mano().contains(c))
 			assert.equals(1, messiMenu.consultarStamina())
 			assert.equals(false, game.hasVisual(c))
-			
-		}
-	
-	
-	/*
-	 * method movimiento(){
-		keyboard.enter().onPressDo{self.turnoMessi()}
+			assert.equals(104, vanGalMenu.consultarVida())
 		
-	}
-	method turnoMessi(){
-		if (juegaMessi){
-			game.removeVisual(cursor)
-			juegaMessi=false
-			messi.juega(enemigo1, cursor.obtenerIndice())
-			self.modificarPosicionCartas(messi.mano())
-			game.schedule(3000, { self.turnoEnemigo() })
-			//self.turnoEnemigo()
-			self.empezarTurno()
 		}
-	}
-	method turnoEnemigo(){
-			enemigo1.juegaEnemigo(messi)	
-			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
-			//juegaMessi=true
-			//game.addVisual(cursor)
-			game.say(messi,"Entre en el turno enemigo")
-			
-	}
-	 */
+
 	
 }
 	
