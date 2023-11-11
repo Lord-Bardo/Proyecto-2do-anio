@@ -93,8 +93,11 @@ class Danio inherits Atributo(x=900 , y= 400){
 class Defensa inherits Atributo(x= 900, y= 500){
 	
 	override method modificarValor(i){ //deberia llamarse sumar valor
-		self.modificarValor(90.min(nro+i))
-	}
+		if (90>=nro+i){
+			super(i)
+			}
+		}
+	
 	override method image()= "defensa.png"
 }
 
@@ -121,7 +124,7 @@ class Personaje{
 		game.addVisual(vida)
 		game.addVisual(danio)
 		game.addVisual(defensa)
-		game.addVisual(stamina)
+		
 	}
 	
 	/*
@@ -342,12 +345,14 @@ class Menu{
 	const balonesDeOro3 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	const balonesDeOro4 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	const balonesDeOro5 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
-	const balonesDeOro6 = new CartaAtaque(costo = 3 , ruta = "BalonesDeOro.png", x= 441)
+	const balonesDeOro6 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	
 	const danioBasico1 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	const danioBasico2 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	const danioBasico3 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	const danioBasico4 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico8 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico7 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
 	
 	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
 	const hormonas1 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
@@ -365,14 +370,14 @@ class Menu{
 	
 	const listaMessi = [danioBasico4, hormonas1, balonesDeOro1, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, danioBasico1, milaGod, dibu2,danioBasico2, hormonas1, danioBasico3]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
-	const listaMo = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
-	const listaV = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaMo = [danioBasico8,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaV = [danioBasico7,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	
 	
 	const messi = new Messi(listaCartas= listaMessi)
-	const mbapee = new Personaje(vida = new Vida(nro= 150), danio = new Danio(nro = 20), defensa = new Defensa(nro = 40), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =200))
-	const modrik = new Personaje (vida = new Vida(nro= 130), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =200) )
-	const vanGal =  new Personaje (vida =  new Vida(nro= 110), danio = new Danio(nro = 10), defensa = new Defensa(nro = 40), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =200) )
+	const mbapee = new Personaje(vida = new Vida(nro= 150), danio = new Danio(nro = 20), defensa = new Defensa(nro = 40), ruta="Mbappe.png", listaCartas = listaMbapee,stamina=new Stamina(nro =1000))
+	const modrik = new Personaje (vida = new Vida(nro= 130), danio = new Danio(nro = 20)	, defensa = new Defensa(nro = 20), ruta ="modrik.png",listaCartas= listaMo,stamina=new Stamina(nro =1000) )
+	const vanGal =  new Personaje (vida =  new Vida(nro= 110), danio = new Danio(nro = 10), defensa = new Defensa(nro = 40), ruta ="vanGal.png",listaCartas= listaV,stamina=new Stamina(nro =1000) )
 	
 	method iniciarMenu(){
 		self.reasignarEnemigoActual()
@@ -384,6 +389,7 @@ class Menu{
 		enemigoActual.asignarCartas()
 		
 		messi.mostrarAtributos()
+		game.addVisual(messi.devolverStamina())
 		enemigoActual.mostrarAtributos()
 		
 		game.addVisual(cursor)
@@ -414,19 +420,19 @@ class Menu{
 	}
 	
 	method turnoEnemigo(){
-			enemigoActual.juega(messi,0)	
+			enemigoActual.juega(messi,0)
+			if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
+			game.clear()
+			game.addVisual(self.devolverPantallaFinal())
+		}	else {
 			game.schedule(2000, {juegaMessi=true;game.addVisual(cursor)})
 	}
-	
+	}
 	method empezarTurno(){
 		messi.incrementarStamina()
 		enemigoActual.incrementarStamina()
 		
-		if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
-			game.clear()
-			game.addVisual(self.devolverPantallaFinal())
-		}
-		else {
+		
 			if(enemigoActual.estaMuerto()){ // animacion de que muere enemigo y se muestra un "gano Argentina"
 				game.clear()
 				if(fase ==2){
@@ -443,7 +449,7 @@ class Menu{
 				}
 			}
 		} 
-	}	
+		
 	
 	
 	
