@@ -131,12 +131,16 @@ describe "Testeando Personaje"{
 	messi.asignarCartas()
 	messi.juega(enemigoConDefensaNula,0)
 	assert.equals(130,enemigoConDefensaNula.consultarVida())
+	}
+	
+	test "Si messi juega la carta balonDeOro, atacara dos veces: se probara  con un enemigo con 40 de defensa y 200 de vida, debe
+	quedar con 188 de vida"{
+	messi.asignarCartas()
 	assert.equals(40,enemigoConDefensaCuarenta.consultarDefensa())	
 	messi.juega(enemigoConDefensaCuarenta,0)
 	assert.equals(138,enemigoConDefensaCuarenta.consultarVida())
 	assert.equals(40,enemigoConDefensaCuarenta.consultarDefensa())
-		
-	}
+		}
 	/*
 	 * tenes 5 de vida
 perdes 7 de vida
