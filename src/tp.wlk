@@ -353,11 +353,18 @@ class Menu{
 	const danioBasico4 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
 	const danioBasico8 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
 	const danioBasico7 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
-	
+	const danioBasico5 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+	const danioBasico6 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+
 	const botines = new CartaAumentoDanio(costo = 0, ruta = "Botinesf50.png", x= 221, aumento= 5)
+	const botines1 = new CartaAumentoDanio(costo = 0, ruta = "Botinesf50.png", x= 221, aumento= 5) 
+	const botines2 = new CartaAumentoDanio(costo = 0, ruta = "Botinesf50.png", x= 221, aumento= 5)
+	const botines3 = new CartaAumentoDanio(costo = 0, ruta = "Botinesf50.png", x= 221, aumento= 5)
 	const hormonas1 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const hormonas2 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const hormonas3 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
+	const hormonas4 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
+	const hormonas5 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
 	
 	const dibu1 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu2 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
@@ -368,7 +375,7 @@ class Menu{
 	const siestita = new CartaAumentoStamina(costo =2 , ruta ="Siestita.png",x=38, aumento =50)
 	
 	
-	const listaMessi = [danioBasico4, hormonas1, balonesDeOro1, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, danioBasico1, milaGod, dibu2,danioBasico2, hormonas1, danioBasico3]
+	const listaMessi = [danioBasico4, hormonas1, botines, milagod, botines1, balonesDeOro1, botines2, hormonas4, hormonas5, daniobasico5 balonesDeOro3, milaGod, dibu1, daniobasico6, balonesDeOro4, siestita, botines3 danioBasico1, milaGod, dibu2,danioBasico2, hormonas1, danioBasico3]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaMo = [danioBasico8,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaV = [danioBasico7,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
