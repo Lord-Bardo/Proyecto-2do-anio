@@ -365,17 +365,23 @@ class Menu{
 	const hormonas3 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
 	const hormonas4 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
 	const hormonas5 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
-	
+	const hormonas6 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
 	const dibu1 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu2 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu3 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu4 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	
 	const milaGod = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
+	const milaGod1 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
+	const milaGod2 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
+	
 	const siestita = new CartaAumentoStamina(costo =2 , ruta ="Siestita.png",x=38, aumento =50)
 	
 	
-	const listaMessi = [danioBasico4, hormonas1, botines, milagod, botines1, balonesDeOro1, botines2, hormonas4, hormonas5, daniobasico5 balonesDeOro3, milaGod, dibu1, daniobasico6, balonesDeOro4, siestita, botines3 danioBasico1, milaGod, dibu2,danioBasico2, hormonas1, danioBasico3]
+	const listaMessi = [danioBasico4, hormonas1, botines, milaGod, botines1, balonesDeOro1, botines2, hormonas4, hormonas5, 
+		danioBasico5, balonesDeOro3, milaGod1, dibu1, danioBasico6, balonesDeOro4, siestita, botines3, danioBasico1, 
+		milaGod2, dibu2,danioBasico2, hormonas6, danioBasico3
+	]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaMo = [danioBasico8,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
 	const listaV = [danioBasico7,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
