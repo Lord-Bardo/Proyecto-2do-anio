@@ -347,12 +347,12 @@ class Menu{
 	const balonesDeOro5 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	const balonesDeOro6 = new CartaAtaque(multiplicador = 2, costo = 3 , ruta = "BalonesDeOro.png", x= 441)
 	
-	const danioBasico1 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const danioBasico2 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const danioBasico3 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const danioBasico4 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const danioBasico8 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
-	const danioBasico7 = new CartaAtaque(costo = 1, ruta = "dañobasico.png", x= 441)
+	const danioBasico1 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+	const danioBasico2 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+	const danioBasico3 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+	const danioBasico4 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+	const danioBasico8 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
+	const danioBasico7 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
 	
 	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
 	const hormonas1 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
@@ -365,7 +365,7 @@ class Menu{
 	const dibu4 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	
 	const milaGod = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
-	const siestita = new CartaAumentoStamina(costo =3 , ruta ="Siestita.png",x=38, aumento =50)
+	const siestita = new CartaAumentoStamina(costo =2 , ruta ="Siestita.png",x=38, aumento =50)
 	
 	
 	const listaMessi = [danioBasico4, hormonas1, balonesDeOro1, botines, balonesDeOro3, milaGod, dibu1, balonesDeOro4, siestita, danioBasico1, milaGod, dibu2,danioBasico2, hormonas1, danioBasico3]
