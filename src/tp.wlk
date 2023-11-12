@@ -354,7 +354,7 @@ class Menu{
 	const danioBasico8 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
 	const danioBasico7 = new CartaAtaque(costo = 0, ruta = "dañobasico.png", x= 441)
 	
-	const botines = new CartaAumentoDanio(costo = 1, ruta = "Botinesf50.png", x= 221, aumento= 5)
+	const botines = new CartaAumentoDanio(costo = 0, ruta = "Botinesf50.png", x= 221, aumento= 5)
 	const hormonas1 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const hormonas2 = new CartaAumentoDanio(costo = 2, ruta = "Hormonas.png", x= 221, aumento= 10)
 	const hormonas3 = new CartaAumentoDanio(costo = 2 , ruta = "Hormonas.png", x= 221, aumento= 10)
