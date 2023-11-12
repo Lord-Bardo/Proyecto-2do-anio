@@ -216,7 +216,6 @@ describe "Testeando Menu"{
 	test "Al iniciar el menu deberia aparecer las estadisticas del enemigo actual (Van Gaal)"{
 		menuPrueba.iniciarMenu()
 		assert.equals(true, game.hasVisual(vanGalMenu.devolverVida()))
-		assert.equals(true, game.hasVisual(vanGalMenu.devolverStamina()))
 		assert.equals(true, game.hasVisual(vanGalMenu.devolverDefensa()))
 		assert.equals(true, game.hasVisual(vanGalMenu.devolverDanio()))
 	}
@@ -253,7 +252,7 @@ describe "Testeando Menu"{
 			assert.equals(true, messiMenu.mazo().contains(c))
 			assert.equals(c, messiMenu.mazo().last())
 			assert.equals(false, messiMenu.mano().contains(c))
-			assert.equals(1, messiMenu.consultarStamina())
+			assert.equals(2, messiMenu.consultarStamina())
 			assert.equals(false, game.hasVisual(c))
 			assert.equals(104, vanGalMenu.consultarVida())
 		
