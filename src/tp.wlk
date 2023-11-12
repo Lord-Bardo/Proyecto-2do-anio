@@ -374,12 +374,13 @@ class Menu{
 	const milaGod = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
 	const milaGod1 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
 	const milaGod2 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
+	const pilegol = new CartaAumentoVida(costo = 2, ruta = "pilegol.png", x= 38,aumento= 50)
 	
-	const siestita = new CartaAumentoStamina(costo =2 , ruta ="Siestita.png",x=38, aumento =50)
+	const siestita = new CartaAumentoStamina(costo =2 , ruta ="Siestita.png",x=38, aumento =10)
 	
 	
 	const listaMessi = [danioBasico4, hormonas1, botines, milaGod, botines1, balonesDeOro1, botines2, hormonas4, hormonas5, 
-		danioBasico5, balonesDeOro3, milaGod1, dibu1, danioBasico6, balonesDeOro4, siestita, botines3, danioBasico1, 
+		danioBasico5, balonesDeOro3, milaGod1, dibu1, danioBasico6, pilegol, balonesDeOro4, siestita, botines3, danioBasico1, 
 		milaGod2, dibu2,danioBasico2, hormonas6, danioBasico3
 	]
 	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
