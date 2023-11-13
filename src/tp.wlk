@@ -370,22 +370,26 @@ class Menu{
 	const dibu2 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu3 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
 	const dibu4 = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 10)
+	const medioDibu = new CartaAumentoDefensa(costo = 2, ruta = "Dibu.png", x= 38, aumento= 5)
 	
 	const milaGod = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
 	const milaGod1 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
 	const milaGod2 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x= 38,aumento= 20)
+	const milaGod3 = new CartaAumentoVida(costo = 1, ruta = "MilaGod.png", x=38, aumento=20)
+	const milaGod4 = new CartaAumentoVida(costo =1, ruta= "MIlaGod.png", x=38, aumento=20)
+	
 	const pilegol = new CartaAumentoVida(costo = 2, ruta = "pilegol.png", x= 38,aumento= 50)
 	
 	const siestita = new CartaAumentoStamina(costo =2 , ruta ="Siestita.png",x=38, aumento =10)
 	
 	
-	const listaMessi = [danioBasico4, hormonas1, botines, milaGod, botines1, balonesDeOro1, botines2, hormonas4, hormonas5, 
+	const listaMessi = [danioBasico4, hormonas1, dibu3, milaGod, botines1, balonesDeOro1, botines2, milaGod3, hormonas5, 
 		danioBasico5, balonesDeOro3, milaGod1, dibu1, danioBasico6, pilegol, balonesDeOro4, siestita, botines3, danioBasico1, 
 		milaGod2, dibu2,danioBasico2, hormonas6, danioBasico3
 	]
-	const listaMbapee = [balonesDeOro2,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
-	const listaMo = [danioBasico8,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
-	const listaV = [danioBasico7,hormonas2, balonesDeOro5,balonesDeOro6,hormonas3]
+	const listaMbapee = [balonesDeOro2,botines, danioBasico8,balonesDeOro6,milaGod4]
+	const listaMo = [danioBasico8,botines, balonesDeOro5,medioDibu,milaGod4]
+	const listaV = [danioBasico7,botines, danioBasico8,botines,milaGod4]
 	
 	
 	const messi = new Messi(listaCartas= listaMessi)
@@ -434,7 +438,7 @@ class Menu{
 	}
 	
 	method turnoEnemigo(){
-			enemigoActual.juega(messi,0)
+			enemigoActual.juega(messi,(0..4).anyOne())
 			if(messi.estaMuerto()){ //se deberia mostrar algo como gano francia 
 			game.clear()
 			game.addVisual(self.devolverPantallaFinal())
